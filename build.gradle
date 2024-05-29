@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+    implementation 'org.springframework.boot:spring-boot-starter-security'//시큐리티
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //oracle db 연동
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc6', version: '11.2.0.4'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+
+    //mustache 추가
+    //implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
+    //마이바티스
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+    //https://www.inflearn.com/chats/716033/spring-3-0-
+    // version-jstl-%EC%9D%B4-%EC%9E%AC%EB%8C%80%EB%A1%9C-
+    // %EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EC%9D%84%EB%95%8C
+    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    //구글 로그인에 필요하다
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.6.2'
+
+    //lombok 사용
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

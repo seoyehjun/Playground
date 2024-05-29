@@ -1,0 +1,43 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    background-image: url(../Images/shuttle.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+}
+
+.weather-info
+{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+
+    width: 300px;
+    height: 300px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.weather-status
+{
+    display: flex;
+}
+
+.time-table
+{
+    font-family: "Libre Caslon Text", serif;
+    font-weight: 1000;
+    font-style: normal;
+}
+
+.information
+{
+    padding-left: 30px;
+}
