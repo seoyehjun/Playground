@@ -26,14 +26,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
     {// OAuth2User는 PrincipalDetail과 대응된다.
         System.out.println("getClientRegistration : " + userRequest.getClientRegistration().getRegistrationId());//registrationID로 어떤 OAuth로 로그인 했는지 확인 가능.
         System.out.println("getAccessToken : " + userRequest.getAccessToken());
-        //구글 로그인 버튼 클릭 -> 구글 로그인창 -> 로그인을 완료 -> code를 리턴(OAuth-Client라이브러리가 code를 받는다) -> AccessToken요청하면
-        //userRequest 정보 받는다-> userRequest를 통해서 회원프로필을 받아오기 위해 loadUser함수 호출 -> 구글로부터 회원프로필 받아준다.
+        //구글 로그인 버튼 클릭 -> 구글 로그인창 -> 로그인을 완료 -> code를 리턴(OAuth-Client라이브러리가 code를 받는다) -> AccessToken요청
+        //userRequest 정보 받는다-> userRequest를 통해서loadUser함수 호출 -> 구글로부터 회원프로필 받아준다.
         OAuth2User oAuth2User = super.loadUser(userRequest);
         System.out.println("getAttributes : " + super.loadUser(userRequest).getAttributes());
 
         String provider = userRequest.getClientRegistration().getClientId();
         String providerId = oAuth2User.getAttribute("sub");
-        String username = provider+"_"+providerId;//google_12312312312 format
+        String username = oAuth2User.getAttribute("name");//google_12312312312 format
         String password = bCryptPasswordEncoder.encode("의미업다");
         String email = oAuth2User.getAttribute("email");
         String role = "ROLE_USER";

@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+//이 객체를 사실 Member 엔티티라고 생각해도 된다.
 @Data
 public class PrincipalDetail implements UserDetails, OAuth2User
 {
@@ -36,7 +37,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User
         this.member = member;
         this.attributes = attributes;
     }
-
 
 
     //해당 Member의 권한을 리턴하는 곳

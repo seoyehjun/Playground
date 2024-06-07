@@ -42,7 +42,7 @@
         <tr>
             <th>Row Header</th>
             <td><a href="${cpath}/weather/getweather">날씨 페이지</a></td>
-            <td>${cpath}</td>
+            <td><a href="${cpath}/loginForm">로그인 페이지</a></td>
             <td>Cell Data</td>
             <td>Cell Data</td>
             <td>Cell Data</td>

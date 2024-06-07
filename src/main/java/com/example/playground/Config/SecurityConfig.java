@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -17,13 +19,13 @@ public class SecurityConfig
 {
     @Autowired
     PrincipalOauth2UserService principalOauth2UserService;
-
+/*
     @Bean
     public BCryptPasswordEncoder encodePwd()
     {
         return new BCryptPasswordEncoder();
     }
-
+*/
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PrincipalDetailsService principalDetailsService) throws Exception
     {
@@ -43,13 +45,21 @@ public class SecurityConfig
                         .defaultSuccessUrl("/hello")
                         .usernameParameter("username")
                         .passwordParameter("userpw")
+                        .successHandler(successHandler())
                         .permitAll())//form 태그 안의 input태그의 name속성을 의미
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/loginForm")
                         .userInfoEndpoint(endpoint-> endpoint.userService(principalOauth2UserService))//구글 로그인 완료후 후처리
+                        .successHandler(successHandler())
                 );
 
         return http.build();
+    }
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setUseReferer(true);
+        return handler;
     }
 
 }

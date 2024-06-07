@@ -1,0 +1,34 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thymeleaf Example</title>
+</head>
+<body>
+<!-- 조건문 -->
+<div th:if="${user.isAdmin()}">
+    <p>User is an administrator</p>
+</div>
+<div th:unless="${user.isAdmin()}">
+    <p>User is not an administrator</p>
+</div>
+
+<!-- 반복문 -->
+<ul>
+    <li th:each="item : ${items}" th:text="${item}">Item</li>
+</ul>
+
+<!-- 변수 표현식 -->
+<p th:text="${user.name}">John Doe</p>
+
+<!-- 스위치 문 -->
+<div th:switch="${user.role}">
+    <p th:case="'Admin'">User is an administrator</p>
+    <p th:case="'Manager'">User is a manager</p>
+    <p th:case="*">User is some other role</p>
+</div>
+</body>
+</html>

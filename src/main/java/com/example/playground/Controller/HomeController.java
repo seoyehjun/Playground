@@ -95,12 +95,12 @@ public class HomeController
     }
     @GetMapping("/test/oauthlogin")
     public @ResponseBody String testOAuthLogin(
-            Authentication authentication,
+            //Authentication authentication,
             @AuthenticationPrincipal OAuth2User oauth)
     {
         System.out.println("/test/login =====================");
-        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("authentication : "+oauth2User.getAttributes());
+        //OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        //System.out.println("authentication : "+oauth2User.getAttributes());
         System.out.println("oauth2User : "+oauth.getAttributes());
 
         return "OAuth용세션 정보 확인하기";
@@ -112,5 +112,7 @@ public class HomeController
         System.out.print("principaldetail: "+principaldetail.getMember());
         return "user";
     }
+
+
 
 }

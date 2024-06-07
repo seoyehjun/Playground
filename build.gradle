@@ -11,6 +11,13 @@ java {
     sourceCompatibility = '17'
 }
 
+configurations {
+    all{
+        exclude group: 'org.springframework.boot',module:
+                'spring-boot-starter-logging'
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -56,6 +63,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    //웹소켓 사용
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    //타임리프 템플릿 엔진사용(JSP도 사용중이다)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //로그
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
 
 }

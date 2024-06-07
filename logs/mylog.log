@@ -1,0 +1,9 @@
+00:30:02.191 [INFO] --- [http-nio-8080-exec-6] c.e.p.H.ChatHandler.onnectionEstablished:30: StandardWebSocketSession[id=95ed0ee5-6078-747c-9ff5-e34d7af3fa81, uri=ws://localhost:8080/ws/chat] 클라이언트 접속
+00:30:02.215 [INFO] --- [http-nio-8080-exec-6] c.e.p.H.ChatHandler.handleTextMessage:20: payload : 권기한: 님이 입장하셨습니다.
+00:30:11.263 [INFO] --- [http-nio-8080-exec-10] c.e.p.H.ChatHandler.handleTextMessage:20: payload : 권기한:123123
+00:30:12.842 [INFO] --- [http-nio-8080-exec-1] c.e.p.H.ChatHandler.handleTextMessage:20: payload : 권기한:sdfsdf
+00:30:14.407 [INFO] --- [http-nio-8080-exec-2] c.e.p.H.ChatHandler.handleTextMessage:20: payload : 권기한:sdfsdf
+00:30:21.381 [INFO] --- [http-nio-8080-exec-3] c.e.p.H.ChatHandler.handleTextMessage:20: payload : 권기한:로그테스트 완료
+00:30:31.774 [INFO] --- [SpringApplicationShutdownHook] c.z.h.HikariDataSource.close:350: HikariPool-1 - Shutdown initiated...
+00:30:31.812 [INFO] --- [SpringApplicationShutdownHook] c.z.h.HikariDataSource.close:352: HikariPool-1 - Shutdown completed.
+00:30:31.815 [INFO] --- [SpringApplicationShutdownHook] c.e.p.H.ChatHandler.fterConnectionClosed:36: StandardWebSocketSession[id=95ed0ee5-6078-747c-9ff5-e34d7af3fa81, uri=ws://localhost:8080/ws/chat] 클라이언트 접속 해제
