@@ -38,3 +38,6 @@ out/
 
 ### OAuth2.0 ###
 application-oauth.properties
+
+### SMTP ###
+src/main/resources/application.properties

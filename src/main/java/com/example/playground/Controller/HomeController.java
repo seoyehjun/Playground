@@ -3,6 +3,7 @@ package com.example.playground.Controller;
 import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Model.Member;
 import com.example.playground.Repository.UserRepository;
+import com.example.playground.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -12,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -25,6 +23,9 @@ public class HomeController
 {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private  MailService mailservice;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -42,10 +43,14 @@ public class HomeController
         return "login/loginForm";
     }
 
-    @GetMapping("joinForm")
-    public String joinForm(Model model)
+    //바로 joinForm으로 넘어가는게 아닌 이메일 인증으로 넘어가게 설정해보자
+    //이메일 인증을 마치면 joinForm.html로 넘어갈 수 있다.
+    @PostMapping("joinForm")
+    public String joinForm(Model model, @RequestParam("user_email")String user_email)
     {
-        return "login/joinForm";
+        System.out.println("------------user_email"+user_email);
+        model.addAttribute("user_email",user_email);
+        return "thymeleaf/joinForm";
     }
 
     @PostMapping("/joinProc")
@@ -113,6 +118,22 @@ public class HomeController
         return "user";
     }
 
+
+    @GetMapping("/email_verification")
+    public String MailPage(){
+        return "thymeleaf/email_verification";
+    }
+
+    @ResponseBody
+    @PostMapping("/mail")
+    public String MailSend(String mail)
+    {
+        int number = mailservice.sendMail(mail);
+
+        String num = "" + number;
+
+        return num;
+    }
 
 
 }

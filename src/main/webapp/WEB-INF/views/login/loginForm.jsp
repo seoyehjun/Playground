@@ -20,7 +20,7 @@
         <input type="submit" value="login">
     </form>
     <a href="/oauth2/authorization/google">구글 로그인</a>
-    <a href="${cpath}/joinForm">회원가입을 아직 하지 않으셨나요?</a>
+    <a href="${cpath}/email_verification">회원가입을 아직 하지 않으셨나요?</a>
 
 </body>
 
