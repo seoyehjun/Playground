@@ -83,6 +83,10 @@ public class HomeController
         return "manager페이지 입니다";
     }
 
+
+
+    /* ----- 이밑은 사용자 정보를 받아오는 법을 정리한 것 들입니다 ----- */
+
     @GetMapping("/test/login")
     public @ResponseBody String loginTest(//Authentication 객체 DI(의존성 주입해줌)
             Authentication authentication,

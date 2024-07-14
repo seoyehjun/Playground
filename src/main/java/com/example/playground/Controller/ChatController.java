@@ -2,15 +2,12 @@ package com.example.playground.Controller;
 
 import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Model.User;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 

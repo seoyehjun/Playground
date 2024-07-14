@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- FullCalendar CSS 파일을 포함합니다. -->
+    <link href="https://fullcalendar.io/releases/main/core/main.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/main/daygrid/main.css" rel="stylesheet" />
+
+    <!-- FullCalendar JS 파일을 포함합니다. -->
+    <script src="https://fullcalendar.io/releases/main/core/main.js"></script>
+    <script src="https://fullcalendar.io/releases/main/daygrid/main.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+</head>
+<body>
+<div id="calendar"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var events = /*[[${events}]]*/ 'default';
+        var calendarEvents = [];
+        for (var i = 0; i < events.length; i++) {
+            calendarEvents.push({
+                title: events[i].title,
+                start: events[i].start,
+                end: events[i].end,
+                color: events[i].color
+            });
+        }
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'dayGrid' ],
+            events: calendarEvents
+        });
+
+        calendar.render();
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

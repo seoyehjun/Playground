@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Reservation System</title>
+</head>
+<body>
+<h1>사무실 예약 시스템</h1>
+<form th:action="@{/reserve/making_reservation}"  method="post">
+    <label for="startday">시작일:</label>
+    <input type="date" id="startday" name="startday" required>
+    <br>
+    <label for="endday">마지막일:</label>
+    <input type="date" id="endday" name="endday" required>
+    <br>
+    <label for="roomId">방 선택:</label>
+    <select id="roomId" name="roomId">
+        <option th:each="room : ${room_list}" th:value="${room.roomId}" th:text="${room.type + ' - ' + room.roomNumber}">방</option>
+    </select>
+    <button type="submit">예약하기</button>
+</form>
+</body>
+</html>
