@@ -42,8 +42,8 @@
         <tr>
             <th>Row Header</th>
             <td><a href="${cpath}/weather/getweather">날씨 페이지</a></td>
-            <td><a href="${cpath}/loginForm">로그인 페이지</a></td>
-            <td>Cell Data</td>
+            <td><a href="${cpath}/loginForm">로그인 페이지(이메일 인증), 구글 로그인 호환</a></td>
+            <td><a href="${cpath}/chat">단체 채팅</a></td>
             <td>Cell Data</td>
             <td>Cell Data</td>
             <td>Cell Data</td>

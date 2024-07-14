@@ -19,6 +19,9 @@ public class SecurityConfig
 {
     @Autowired
     PrincipalOauth2UserService principalOauth2UserService;
+
+    @Autowired
+    AuthenticationSuccessHandler customAuthenticationSuccessHandler;
 /*
     @Bean
     public BCryptPasswordEncoder encodePwd()
@@ -29,6 +32,7 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PrincipalDetailsService principalDetailsService) throws Exception
     {
+
         System.out.println("실행은 되냐************************");
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
@@ -45,12 +49,12 @@ public class SecurityConfig
                         .defaultSuccessUrl("/hello")
                         .usernameParameter("username")
                         .passwordParameter("userpw")
-                        .successHandler(successHandler())
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll())//form 태그 안의 input태그의 name속성을 의미
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/loginForm")
                         .userInfoEndpoint(endpoint-> endpoint.userService(principalOauth2UserService))//구글 로그인 완료후 후처리
-                        .successHandler(successHandler())
+                        .successHandler(customAuthenticationSuccessHandler)
                 );
 
         return http.build();
