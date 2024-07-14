@@ -22,9 +22,9 @@
     </Appenders>
 
     <Loggers>
-        <Root level="ERROR" additivity="false">
+        <Root level="INFO" additivity="false">
             <AppenderRef ref="Console_Appender"/>
-            <!--<AppenderRef ref="File_Appender"/>-->
+            <AppenderRef ref="File_Appender"/>
         </Root>
 
         <Logger name="org.springframework" level="ERROR" additivity="false">
