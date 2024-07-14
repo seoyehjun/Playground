@@ -21,8 +21,8 @@ public class Reservation
     @JoinColumn(name = "roomId")
     private Room room;
 
-    private LocalDate startDay;
-    private LocalDate endDay;
+    private Date startDay;
+    private Date endDay;
 
     // 다대일 관계 설정
     @ManyToOne

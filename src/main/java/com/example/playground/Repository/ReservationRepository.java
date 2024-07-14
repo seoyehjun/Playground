@@ -9,5 +9,5 @@ import java.util.Date;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer>
 {
-    boolean existsByRoomAndStartDayLessThanEqualAndEndDayGreaterThanEqual(Room room, LocalDate endday, LocalDate startday);
+    boolean existsByRoomAndStartDayLessThanEqualAndEndDayGreaterThanEqual(Room room, Date endday, Date startday);
 }
