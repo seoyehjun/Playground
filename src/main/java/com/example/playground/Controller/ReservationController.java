@@ -41,22 +41,33 @@ public class ReservationController
         model.addAttribute("room_list", reservationService.get_rooms());
         return "thymeleaf/reservationform1";
     }
-/*
+
     @GetMapping("/reservation_status")
     public String reservation_status(Model model,@RequestParam(name="issuccess") String issuccess)
     {
         System.out.println("status 컨트롤러 이동 완료");
         List<EventDto> events = new ArrayList<>();
+        String[] temp1 = new String[3];
+        String[] temp2 = new String[3];
+        String temp1_1 = null;
+        String temp2_1 = null;
+        String color;
         for (Reservation reservation : reservationService.get_reservations())
         {
-            LocalDate localDate = reservation.toInstant()  // Date -> Instant
-                    .atZone(ZoneId.systemDefault())  // Instant -> ZonedDateTime
-                    .toLocalDate();  // ZonedDateTime -> LocalDate
+            temp1_1 = reservation.getStartDay()+"";
+            temp2_1 = reservation.getEndDay()+"";
+            temp1 = temp1_1.split(" ")[0].split("-");
+            temp2 = temp2_1.split(" ")[0].split("-");//시간부분은 필요없으니 분리
 
-            // 3. Date -> LocalDateTime
-            LocalDateTime localDateTime = date.toInstant()  // Date -> Instant
-                    .atZone(ZoneId.systemDefault())  // Instant -> ZonedDateTime
-                    .toLocalDateTime();  // ZonedDateTime -> LocalDateTime
+            events.add(new EventDto("reservation"+reservation.getRoom().getRoomId(),
+                    LocalDate.of(Integer.parseInt(temp1[0]),Integer.parseInt(temp1[1]),Integer.parseInt(temp1[2])),
+                    LocalDate.of(Integer.parseInt(temp2[0]),Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2])),
+                    get_color(  (int)reservation.getRoom().getRoomId()  ) ) )         ;
+
+            System.out.println("EventDto : "+ new EventDto("reservation"+reservation.getReservationId(),
+                    LocalDate.of(Integer.parseInt(temp1[0]),Integer.parseInt(temp1[1]),Integer.parseInt(temp1[2])),
+                    LocalDate.of(Integer.parseInt(temp2[0]),Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2])),
+                    get_color(  (int)reservation.getRoom().getRoomId()  ) ));
 
         }
         model.addAttribute("issuccess", issuccess);//예약 성공 여부
@@ -64,7 +75,28 @@ public class ReservationController
 
         return "thymeleaf/reservation_status";
     }
-*/
+
+    public String get_color(int roomId)
+    {
+        String roomColor;
+        switch (roomId)
+        {
+            case 1:
+                roomColor = "#FF5733"; // 방 1의 색상
+                break;
+            case 2:
+                roomColor = "#00AABB"; // 방 2의 색상
+                break;
+            case 3:
+                roomColor = "#FFD700"; // 방 3의 색상
+                break;
+            default:
+                roomColor = "#FFFFFF"; // 기본 색상 (방 Id에 해당하는 색상이 없을 경우)
+                break;
+        }
+        return roomColor;
+    }
+
 
     @PostMapping("/making_reservation")
     public String getRoom(@RequestParam(name= "startday") String startday,

@@ -52,6 +52,7 @@
     }
 </script>
 <body>
+<div th:replace="header :: header"></div>
 <div id="mail_input" name="mail_input">
     <input type="text" name="mail" id="mail" placeholder="이메일 입력">
     <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>

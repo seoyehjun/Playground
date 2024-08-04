@@ -30,6 +30,9 @@ public class HomeController
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @GetMapping("main")
+    public String tomain(Model model){return "thymeleaf/loginForm";}
+
     @GetMapping("hello")
     public String home(Model model)
     {

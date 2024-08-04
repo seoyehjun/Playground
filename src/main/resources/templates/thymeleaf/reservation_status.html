@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- FullCalendar CSS 파일을 포함합니다. -->
-    <link href="https://fullcalendar.io/releases/main/core/main.css" rel="stylesheet" />
-    <link href="https://fullcalendar.io/releases/main/daygrid/main.css" rel="stylesheet" />
 
     <!-- FullCalendar JS 파일을 포함합니다. -->
-    <script src="https://fullcalendar.io/releases/main/core/main.js"></script>
-    <script src="https://fullcalendar.io/releases/main/daygrid/main.js"></script>
+    <link href='https://fullcalendar.io/releases/main/base.css' rel='stylesheet' />
+    <script src='https://fullcalendar.io/releases/main/base.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-</head>
-<body>
-<div id="calendar"></div>
-
-<script th:inline="javascript">
+    <script th:inline="javascript">
+        alert(/*[[${issuccess}]]*/);
     /*<![CDATA[*/
-    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
         var events = /*[[${events}]]*/ 'default';
@@ -23,14 +17,14 @@
         for (var i = 0; i < events.length; i++) {
             calendarEvents.push({
                 title: events[i].title,
-                start: events[i].start,
-                end: events[i].end,
+                start: events[i].startDate,
+                end: events[i].endDate + ' 23:59:59',
                 color: events[i].color
             });
         }
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'dayGrid' ],
+            initialView: 'dayGridMonth',
             events: calendarEvents
         });
 
@@ -38,5 +32,12 @@
     });
     /*]]>*/
 </script>
+
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div id="calendar"></div>
+
+
 </body>
 </html>

@@ -1,0 +1,18 @@
+<!-- header.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ... -->
+</head>
+<body>
+<header th:fragment="header">
+    <nav>
+        <ul>
+            <li><a th:href="@{/loginForm}">로그인</a></li>
+            <li><a th:href="@{/hello}">홈으로</a></li>
+        </ul>
+    </nav>
+</header>
+<!-- ... -->
+</body>
+</html>
