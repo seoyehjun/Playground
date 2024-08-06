@@ -77,7 +77,7 @@ section {
   color: #000; }
 
 .navbar-nav .nav-link {
-  color: #fff;
+  color: #333;
   transition: .3s ease; }
 
 .navbar-nav:hover li a {

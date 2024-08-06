@@ -30,7 +30,7 @@ public class HomeController
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("main")
+    @GetMapping("loginForm")
     public String tomain(Model model){return "thymeleaf/loginForm";}
 
     @GetMapping("hello")
@@ -40,11 +40,6 @@ public class HomeController
     }
 
 
-    @GetMapping("loginForm")
-    public String login(Model model)
-    {
-        return "login/loginForm";
-    }
 
     //바로 joinForm으로 넘어가는게 아닌 이메일 인증으로 넘어가게 설정해보자
     //이메일 인증을 마치면 joinForm.html로 넘어갈 수 있다.
