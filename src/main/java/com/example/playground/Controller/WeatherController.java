@@ -125,6 +125,6 @@ public class WeatherController {
         conn.disconnect();
         String result= sb.toString();
         model.addAttribute("weather_dataset", result);
-        return "weather/weather";
+        return "thymeleaf/weather";
     }
 }

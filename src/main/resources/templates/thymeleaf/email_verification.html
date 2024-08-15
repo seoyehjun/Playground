@@ -1,68 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th= "http://www.thymeleaf.org" >
+
 <head>
-    <meta charset="UTF-8">
-    <title>이메일 인증 구현하기</title>
-</head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript">
-    function sendNumber(){
-        $("#mail_number").css("display","block");
-        $.ajax({
-            url:"/mail",
-            type:"post",
-            dataType:"json",
-            data:{"mail" : $("#mail").val()},
-            success: function(data){
-                alert("인증번호 발송");
-                $("#Confirm").attr("value",data);
+    <!--
+     - Roxy: Bootstrap template by GettTemplates.com
+     - https://gettemplates.co/roxy
+    -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Roxy by GetTemplates.co</title>
+    <meta name="description" content="Roxy">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+
+    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
+    <!-- 이메일 인증을 위한 스크립트들 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function sendNumber(){
+            $("#mail_number").css("display","block");
+            $.ajax({
+                url:"/mail",
+                type:"post",
+                dataType:"json",
+                data:{"mail" : $("#mail").val()},
+                success: function(data){
+                    alert("인증번호 발송");
+                    $("#Confirm").attr("value",data);
+                }
+            });
+        }
+
+        function confirmNumber(){
+            var number1 = $("#number").val();
+            var number2 = $("#Confirm").val();
+            var user_email = $("#mail").val();
+            console.log("111111user_email"+user_email);
+            if(number1 == number2)
+            {
+                /* https://here4you.tistory.com/87  -->javascript에서 form생성후 데이터 보내기 */
+                var form = document.createElement("form");
+                form.setAttribute("charset","UTF-8");
+                form.setAttribute("method","Post");
+                form.setAttribute("action","/joinForm")//요청을 처리할 주소
+
+                var passed_data = document.createElement("input");
+                passed_data.setAttribute("type","hidden");
+                passed_data.name = "user_email";
+                passed_data.setAttribute("value",user_email);
+                form.appendChild(passed_data);
+                document.body.appendChild(form);
+                console.log(form);
+                form.submit();
+                alert("인증되었습니다.");
+
+
             }
-        });
-    }
-
-    function confirmNumber(){
-        var number1 = $("#number").val();
-        var number2 = $("#Confirm").val();
-        var user_email = $("#mail").val();
-        console.log("111111user_email"+user_email);
-        if(number1 == number2)
-        {
-            /* https://here4you.tistory.com/87  -->javascript에서 form생성후 데이터 보내기 */
-            var form = document.createElement("form");
-            form.setAttribute("charset","UTF-8");
-            form.setAttribute("method","Post");
-            form.setAttribute("action","/joinForm")//요청을 처리할 주소
-
-            var passed_data = document.createElement("input");
-            passed_data.setAttribute("type","hidden");
-            passed_data.name = "user_email";
-            passed_data.setAttribute("value",user_email);
-            form.appendChild(passed_data);
-            document.body.appendChild(form);
-            console.log(form);
-            form.submit();
-            alert("인증되었습니다.");
-
-
+            else
+            {
+                alert("번호가 다릅니다.");
+            }
         }
-        else
-        {
-            alert("번호가 다릅니다.");
-        }
-    }
-</script>
-<body>
-<div th:replace="header :: header"></div>
-<div id="mail_input" name="mail_input">
-    <input type="text" name="mail" id="mail" placeholder="이메일 입력">
-    <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
-</div>
-<br>
-<div id="mail_number" name="mail_number" style="display: none">
-    <input type="text" name="number" id="number" placeholder="인증번호 입력">
-    <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
-</div>
-<br>
-<input type="text" id="Confirm" name="Confirm" style="display: none" value="">
+    </script>
+
+</head>
+
+<body ata-spy="scroll" data-target="#navbar" class="static-layout">
+
+<!--헤더 참조-->
+<div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
+
+<section id="contact-form" class="bg-white">
+    <div class="container">
+        <div class="section-content">
+            <!-- Section Title -->
+            <div class="title-wrap" data-aos="fade-up">
+                <h2 class="section-title">이메일 인증</h2>
+            </div>
+            <!-- End of Section Title -->
+            <div class="row center-aligner" data-aos="fade-up">
+                <div id="mail_input" name="mail_input" class="center-aligner">
+                    <input type="text" name="mail" id="mail" placeholder="이메일 입력">
+                    <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
+                </div>
+                <br>
+                <div id="mail_number" name="mail_number" class="center-aligner" style="display: none">
+                    <input type="text" name="number" id="number" placeholder="인증번호 입력">
+                    <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+                </div>
+                <br>
+                <input type="text" id="Confirm" name="Confirm" style="display: none" value=""><!--인증번호가 발송되면 값이 채워지고 사용자와 입력한 값과 비교됩니다-->
+            </div>
+        </div>
+        <div class="section-content pt-0">
+            <div class="title-wrap" data-aos="fade-up">
+                <h2 class="section-title">Where To Find Us?</h2>
+            </div>
+            <div class="row text-center mt-4">
+                <div class="col-md-3" data-aos="fade-up">
+                    <span class="lnr lnr-location fs-40 py-4 d-block"></span>
+                    <h5>LOCATION</h5>
+                    <p>Yogyakarta</p>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <span class="lnr lnr-clock fs-40 py-4 d-block"></span>
+                    <h5>WORKING TIME</h5>
+                    <p>Monday - Saturday</p>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                    <span class="lnr lnr-phone fs-40 py-4 d-block"></span>
+                    <h5>CALL US</h5>
+                    <p>123-45678</p>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="600">
+                    <span class="lnr lnr-phone fs-40 py-4 d-block"></span>
+                    <h5>EMAIL</h5>
+                    <p>company@gmail.com</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Contact Form Section -->
+
+<!-- Body 스크립트 프래그먼트 참조 -->
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
+
 </body>
 </html>

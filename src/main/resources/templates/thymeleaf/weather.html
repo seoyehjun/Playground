@@ -1,0 +1,112 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--글꼴 설정입니다-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Moirai+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/resources/css/hello.css}" type="text/css" />
+
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/resources/css/weather.css}" type="text/css" />
+
+    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+
+    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
+</head>
+
+<body>
+
+<!--헤더 참조-->
+<div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar(page='weather-page')}"></div>
+
+
+
+
+<div class="weather-info">
+    <div class="time-table">
+        <span class="month">00</span>.
+        <span class="date">00</span>.
+        <span class="year">0000</span>.
+        <span class="todayTimes">00000</span>
+    </div>
+    <br>
+    <hr>
+    <br>
+
+    <!--https://www.weather.go.kr/w/resources/pdf/dongnaeforecast_rss.pdf  날씨데이터 종류와 수치 종류 정리-->
+    <h1>오늘의 날씨</h1>
+
+    <br>
+
+    <div class="weather-status">
+        <div th:switch="${SKY.obsrValue}">
+            <div th:case="1">
+                <img th:src="@{/resources/WeatherIcon/img.png}" alt="맑은 날씨 이미지">
+            </div>
+            <div th:case="3">
+                <img th:src="@{/resources/WeatherIcon/img_1.png}" alt="조금 흐린 날씨 이미지">
+            </div>
+            <div th:case="4">
+                <img th:src="@{/resources/WeatherIcon/img_2.png}" alt="조금 흐린 날씨 이미지">
+            </div>
+            <div th:case="6">
+                <img th:src="@{/resources/WeatherIcon/img2.png}" alt="많이 흐린 날씨 이미지">
+            </div>
+            <div th:case="*{PTY.obsrValue == 1}">
+                <img th:src="@{/resources/WeatherIcon/img_3.png}" alt="비오는 날씨 이미지">
+            </div>
+            <div th:case="*">
+                <p>날씨 정보를 가져오지 못했습니다.</p>
+            </div>
+        </div>
+        <div class="information">
+            온도 : <span th:text="${T1H.obsrValue}">0</span>°C
+            <hr>
+            습도 : <span th:text="${REH.obsrValue}">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    setInterval(myTimer, 1000); // 1초마다 호출되게 한다.
+
+    function myTimer() {
+        let today = new Date(); //데이트객체생성
+        let y = today.getFullYear();
+        let m = today.getMonth() + 1; //0부터 시작하므로 +1을 더해야 현재 월 이 된다.
+        let d = today.getDate(); //일 값을 받아낸다.
+        let day = today.getDay(); // 요일의 값을 받아낸다.
+        let weekday = new Array(7); // 어레이의 각 요일을 할당하고
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
+
+        let t_time = today.toLocaleTimeString();
+
+        $(".time-table .year").text(y);
+        $(".time-table .month").text(m);
+        $(".time-table .date").text(d);
+        $(".day").text(weekday[today.getDay()]); //어레이의 요일의 값을 할당해 요일 출력
+        $(".time-table .todayTimes").text(t_time);
+    }
+</script>
+
+<!-- Body 스크립트 프래그먼트 참조 -->
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
+
+</body>
+
+</html>
