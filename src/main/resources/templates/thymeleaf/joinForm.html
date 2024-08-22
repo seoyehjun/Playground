@@ -13,7 +13,7 @@
 <p th:text="${user_email}">백엔드 데이터가 여기에 표시됩니다.</p>
 
 <form action="/joinProc" method="post">
-    <input type="text" name="username" placeholder="Username"/><br>
+    <input type="text" name="nickname" placeholder="Nickname"/><br>
     <input type="password" name="userpw" placeholder="Password"/><br>
     <input type="email" name="useremail" placeholder="Email" th:value="${user_email}" readonly/><br>
     <button>회원가입</button>

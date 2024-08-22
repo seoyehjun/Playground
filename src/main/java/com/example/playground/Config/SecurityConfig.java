@@ -47,7 +47,7 @@ public class SecurityConfig
                         .loginPage("/loginForm")
                         .loginProcessingUrl("/loginProc")//login주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
                         .defaultSuccessUrl("/hello")
-                        .usernameParameter("username")
+                        .usernameParameter("nickname")
                         .passwordParameter("userpw")
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll())//form 태그 안의 input태그의 name속성을 의미

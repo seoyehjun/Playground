@@ -25,9 +25,9 @@ public class PrincipalDetailsService implements UserDetailsService
     // 이 함수는 loginForm에서 로그인버튼 클릭하면 실행되는 함수임
     // loginForm에서 username이라는 name속성을 가진것에 대응된다.
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException
     {
-        Member memberEntity = userRepository.findByUsername(username);
+        Member memberEntity = userRepository.findByNickname(nickname);
         if(memberEntity != null)//멤버가 존재하면 properties에 정해놓은 아이디 비번 쓸모없다.
         {
             return new PrincipalDetail(memberEntity);

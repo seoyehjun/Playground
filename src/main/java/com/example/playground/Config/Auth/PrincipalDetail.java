@@ -6,6 +6,7 @@ package com.example.playground.Config.Auth;
 //Security Session은 Authentication 객체를 가지고
 //Authentication 객체는 UserDetails(밑의PrincipalDetail) 객체를 가진다
 
+import com.example.playground.Config.UserInfo.UserRole;
 import com.example.playground.Model.Member;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,7 +47,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User
         authorities.add(new GrantedAuthority(){
             @Override
             public String getAuthority() {
-                return member.getRole();
+                return member.getRole().toString();
             }
         });
         return authorities;
@@ -59,7 +60,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return member.getNickname();
     }
 
     @Override

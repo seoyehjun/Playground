@@ -37,11 +37,14 @@
             <div class="row">
                 <!-- Contact Form Holder -->
                 <div class="col-md-8 offset-md-2 contact-form-holder mt-4" data-aos="fade-up">
+
                     <form method="post" name="contact-us" action="/loginProc">
                         <div class="row center-aligner">
+
                             <div class="col-md-9 form-group center-aligner login-input">
-                                <input type="text" class="form-control" id="name" name="username" placeholder="ID">
+                                <input type="text" class="form-control" id="name" name="nickname" placeholder="ID">
                             </div>
+
                             <div class="col-md-9 form-group center-aligner login-input">
                                 <input type="text" class="form-control" id="email" name="userpw" placeholder="Password">
                             </div>
@@ -53,14 +56,27 @@
                             </div>
                         </div>
                     </form>
+
                     <br><br>
-                    <a href="/oauth2/authorization/google">구글 로그인</a>
+
+                    <!--oauth2 로그인 버튼들-->
+                    <div class="col-md-12 center-aligner">
+                        <a href="/oauth2/authorization/google"><img class="login-images" src="/lib/images/login_button/googleloginimage.png" alt="구글 로그인"></a>
+                        <a href="/oauth2/authorization/kakao"><img class="login-images" src="/lib/images/login_button/kakaologinimage.png" alt="카카오 로그인"></a>
+                        <a href="/oauth2/authorization/naver"><img class="login-images" src="/lib/images/login_button/naverloginimage.png" alt="네이버 로그인"></a>
+                        <!-- oauth2 client 라이브러리를 쓰면 고정으로 위주소를 써야한다-->
+                    </div>
+
+
                     <br><br>
+
                     <a href="/email_verification">회원가입을 아직 하지 않으셨나요?</a>
                 </div>
-                <!-- End of Contact Form Holder -->
+
             </div>
+
         </div>
+
         <div class="section-content pt-0">
             <div class="title-wrap" data-aos="fade-up">
                 <h2 class="section-title">Where To Find Us?</h2>

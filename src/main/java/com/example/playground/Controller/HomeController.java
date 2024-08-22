@@ -1,6 +1,7 @@
 package com.example.playground.Controller;
 
 import com.example.playground.Config.Auth.PrincipalDetail;
+import com.example.playground.Config.UserInfo.UserRole;
 import com.example.playground.Model.Member;
 import com.example.playground.Repository.UserRepository;
 import com.example.playground.Service.MailService;
@@ -61,7 +62,7 @@ public class HomeController
     public  String join(Member member)
     {
         System.out.println(member);
-        member.setRole("ROLE_USER");
+        member.setRole(UserRole.USER);
         String rawPassword = member.getUserpw();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         member.setUserpw(encPassword);
@@ -122,7 +123,7 @@ public class HomeController
     @GetMapping
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetail principaldetail)
     {
-        System.out.print("principaldetail: "+principaldetail.getMember());
+        //System.out.print("principaldetail: "+principaldetail.getMember());
         return "user";
     }
 

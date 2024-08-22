@@ -36,5 +36,10 @@
     border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
 }
 
+.login-images{
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 
 

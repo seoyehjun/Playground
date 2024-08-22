@@ -1,6 +1,7 @@
 package com.example.playground.Config.oauth;
 
 import com.example.playground.Config.Auth.PrincipalDetail;
+import com.example.playground.Config.UserInfo.*;
 import com.example.playground.Model.Member;
 import com.example.playground.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService
@@ -30,8 +34,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
         //구글 로그인 버튼 클릭 -> 구글 로그인창 -> 로그인을 완료 -> code를 리턴(OAuth-Client라이브러리가 code를 받는다) -> AccessToken요청
         //userRequest 정보 받는다-> userRequest를 통해서loadUser함수 호출 -> 구글로부터 회원프로필 받아준다.
 
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-
         System.out.println("getAttributes : " + super.loadUser(userRequest).getAttributes());
         //위문장 출력 결과: getAttributes : {sub=116875832835056222762, name=권기한, given_name=기한, family_name=권,
         // picture=https://lh3.googleusercontent.com/a/ACg8ocLHTWu96T-YLMLFfE6Eyo8YVJtFvVmvaNhwFvI9LrdeFMcfeL6i=s96-c,
@@ -43,30 +45,53 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
         System.out.println("userRequest.getClientRegistration().getClientId()" + userRequest.getClientRegistration().getClientId());
         //위문장 출력 결과: 281351119419-61n6htsd2aqkn7p3lb8052h6f50ls97a.apps.googleusercontent.com
 
-        String provider = userRequest.getClientRegistration().getClientId();
-        String providerId = oAuth2User.getAttribute("sub");
-        String username = oAuth2User.getAttribute("name");//google_12312312312 format
-        String password = bCryptPasswordEncoder.encode("의미업다");
-        String email = oAuth2User.getAttribute("email");
-        String role = "ROLE_USER";
+        OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        Member userEntity = userRepository.findByUsername(username);
+        OAuth2UserInfo oAuth2UserInfo = null;
 
-        if(userEntity == null)//DB에 유저정보 없을시
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+
+        if(provider.equals("google"))
         {
-            userEntity = Member.builder()
-                    .username(username)
-                    .password(password)
-                    .email(email)
-                    .role(role)
+            oAuth2UserInfo = new GoogleUserInfo( oAuth2User.getAttributes() );
+        }
+        else if(provider.equals("kakao"))
+        {
+            oAuth2UserInfo = new KakaoUserInfo( (Map<String, Object>) oAuth2User.getAttributes() );
+        }
+        else if(provider.equals("naver"))
+        {
+            oAuth2UserInfo = new NaverUserInfo( (Map<String, Object>) oAuth2User.getAttributes().get("response") );
+        }
+
+        String providerId = oAuth2UserInfo.getProviderId();
+        String email = oAuth2UserInfo.getEmail();
+        String loginId = provider + "_" + providerId;
+        String nickname = oAuth2UserInfo.getName();
+
+
+        Optional<Member> optionalUser = userRepository.findByLoginId(loginId);
+        Member member = null;
+
+        if(optionalUser.isEmpty())
+        {
+            member = Member.builder()
+                    .loginId(loginId)
+                    .nickname(nickname)
                     .provider(provider)
                     .providerId(providerId)
+                    .role(UserRole.USER)
                     .build();
-            userRepository.save(userEntity);
+            userRepository.save(member);
+        }
+        else
+        {
+            member = optionalUser.get();
         }
 
         //반환된게 Authentication객체에 들어가게 된다.
-        return new PrincipalDetail(userEntity, oAuth2User.getAttributes());
+        return new PrincipalDetail(member, oAuth2User.getAttributes());
+
     }
 
 }
