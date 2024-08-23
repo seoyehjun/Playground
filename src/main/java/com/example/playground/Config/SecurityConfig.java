@@ -40,13 +40,14 @@ public class SecurityConfig
                         .requestMatchers("/weather/getweather").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers("/reserve/reservationform1").authenticated()
                         .anyRequest().permitAll()
 
                 )
                 .formLogin(form -> form
                         .loginPage("/loginForm")
                         .loginProcessingUrl("/loginProc")//login주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
-                        .defaultSuccessUrl("/hello")
+                        .defaultSuccessUrl("/main")
                         .usernameParameter("nickname")
                         .passwordParameter("userpw")
                         .successHandler(customAuthenticationSuccessHandler)

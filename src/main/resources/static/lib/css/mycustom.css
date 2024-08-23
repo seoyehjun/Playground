@@ -36,9 +36,18 @@
     border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
 }
 
+#reserve-form{
+    width: 200px;
+}
+
 .login-images{
     padding-left: 3px;
     padding-right: 3px;
+}
+
+.split-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 

@@ -26,7 +26,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     {
 
         //기본 url 설정, savedRequest가 null일 경우 설정한 페이지로 보내기 위함이다.
-        setDefaultTargetUrl("/hello");
+        setDefaultTargetUrl("/main");
 
         // 사용자가 인증을 시도하기 이전에 접근을 시도했던 자원이 없을경우 savedRequest는 null로 반환된다.
         SavedRequest savedRequest = requestCache.getRequest(request, response);

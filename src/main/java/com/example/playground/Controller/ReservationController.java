@@ -81,6 +81,9 @@ public class ReservationController
                           RedirectAttributes ra
                           )
     {
+
+
+
         System.out.println("startday : "+startday);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -90,6 +93,11 @@ public class ReservationController
         {
             temp_date1 = dateFormat.parse(startday);
             temp_date2 = dateFormat.parse(endday);
+            if (temp_date1.after(temp_date2))
+            {
+                ra.addFlashAttribute("error", "※ 시작일이 마감일보다 뒤에있습니다 ※");
+                return "redirect:/reserve/reservationform1"; // 이전 페이지로 리다이렉트
+            }
         }
         catch (ParseException e)
         {
@@ -142,17 +150,6 @@ public class ReservationController
 
         return "thymeleaf/reservation_status";
     }
-    /*@PostMapping("/making_reservation")
-    public String handleReservation(@RequestParam("startday") String startDay,
-                                    @RequestParam("endday") String endDay,
-                                    @RequestParam("roomId") Long roomId) {
-        System.out.println("POST 이동 성공!!!!!!!!!!!!!");
-        return "redirect:/reservation-success"; // 예약 성공 페이지로 리다이렉트
-    }*/
-
-
-
-
 
 
 }
