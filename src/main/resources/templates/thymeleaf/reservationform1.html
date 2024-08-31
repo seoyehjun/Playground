@@ -38,19 +38,19 @@
     <div class="container">
         <div class="section-content">
             <div class="row center-aligner" data-aos="fade-up">
-                <div class="col-md-8 offset-md-2 contact-form-holder mt-4" data-aos="fade-up">
+                <div class=" offset-md-2 contact-form-holder mt-4 rounded-corner" data-aos="fade-up">
                     <h1>사무실 예약 시스템</h1>
                     <br><br>
                     <form id="reserve-form" th:action="@{/reserve/making_reservation}"  method="post">
 
                         <div class="split-container">
                             <label for="startday">시작일:</label>
-                            <input type="date" id="startday" class="col-md-6" name="startday" required>
+                            <input type="date" id="startday" class="col-md-7" name="startday" required>
                         </div>
                         <br>
                         <div class="split-container">
                             <label for="endday">마지막일:</label>
-                            <input type="date" id="endday" class="col-md-6" name="endday" required>
+                            <input type="date" id="endday" class="col-md-7" name="endday" required>
                         </div>
                         <br>
                         <div class="split-container">

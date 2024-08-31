@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +28,19 @@ public class WeatherController {
 
     }
 
+    @GetMapping("weatherver2")
+    public String weather2(Model model) {return "thymeleaf/weather(ver2)";}
+
     @GetMapping("/getweather")
-    public String weather(Model model) throws IOException {
+    public String weather(
+                          Model model,
+                          @RequestParam(value = "city", required = false, defaultValue = "") String city,
+                          @RequestParam(value = "district", required = false, defaultValue = "") String district,
+                          @RequestParam(value = "neighborhood", required = false, defaultValue = "") String neighborhood,
+                          @RequestParam(value = "x", required = false, defaultValue = "") String x,
+                          @RequestParam(value = "y", required = false, defaultValue = "") String y
+    ) throws IOException
+    {
         LocalDateTime t = LocalDateTime.now().minusMinutes(30); // 현재 시각 30분전
 
         String apiurl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
@@ -38,8 +50,8 @@ public class WeatherController {
         String dataType = "JSON";
         String base_date = t.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String base_time = t.format(DateTimeFormatter.ofPattern("HHmm"));
-        String nx = "99";
-        String ny = "75";
+        String nx = x;
+        String ny = y;
         String basehour = base_time.substring(0,2);System.out.println("+++++basehour: "+ basehour);
 
         StringBuilder urlBuilder = new StringBuilder(apiurl); /*단기예보조회 URL*/
@@ -116,10 +128,13 @@ public class WeatherController {
         }
 
         System.out.println("하늘상태는 : "+ SKY_vo.getObsrValue());
+        model.addAttribute("place_name", city+district+neighborhood);
         model.addAttribute("PTY",PTY_vo);
         model.addAttribute("T1H",T1H_vo);
         model.addAttribute("SKY",SKY_vo);
         model.addAttribute("REH",REH_vo);
+        model.addAttribute("x",Integer.parseInt(x)+30);
+        model.addAttribute("y",Integer.parseInt(y)-40);
 
         rd.close();
         conn.disconnect();

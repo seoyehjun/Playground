@@ -36,8 +36,17 @@
     border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
 }
 
+#button-weather1{
+    border-width: 1px; /* 테두리 굵기 설정 */
+    border: 1px solid #ced4da;/* 테두리 색 회색으로 설정 */
+    border-top-left-radius: 10px; /* 왼쪽 위 모서리 네모 */
+    border-bottom-left-radius: 10px; /* 왼쪽 아래 모서리 네모 */
+    border-top-right-radius: 10px; /* 오른쪽 위 모서리 둥글게 */
+    border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
+}
+
 #reserve-form{
-    width: 200px;
+    width: 250px;
 }
 
 .login-images{
@@ -50,5 +59,14 @@
     justify-content: space-between;
 }
 
+.rounded-corner {
+    padding: 30px;
+    border: 2px solid #000; /* 테두리 색상과 두께 */
+    border-radius: 10px; /* 둥근 테두리의 반경 */
+}
 
+.location-selector{
+    width: 700px;
+    height: 300px;
+}
 

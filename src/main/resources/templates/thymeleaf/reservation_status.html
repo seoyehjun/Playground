@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
+    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+
+    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
     <!-- FullCalendar JS 파일을 포함합니다. -->
     <link href='https://fullcalendar.io/releases/main/base.css' rel='stylesheet' />
     <script src='https://fullcalendar.io/releases/main/base.js'></script>
@@ -35,8 +41,15 @@
 
 </head>
 <body>
+<!--헤더 참조-->
+<div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
+
+
 <div th:replace="header :: header"></div>
 <div id="calendar"></div>
+
+<!-- Body 스크립트 프래그먼트 참조 -->
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
 
 
 </body>
