@@ -63,6 +63,8 @@ public class PrincipalDetail implements UserDetails, OAuth2User
         return member.getNickname();
     }
 
+
+
     @Override
     public boolean isAccountNonExpired()
     {

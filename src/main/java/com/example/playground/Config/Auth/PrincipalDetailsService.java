@@ -1,7 +1,7 @@
 package com.example.playground.Config.Auth;
 
 import com.example.playground.Model.Member;
-import com.example.playground.Repository.UserRepository;
+import com.example.playground.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService
 {
     @Autowired
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public PrincipalDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public PrincipalDetailsService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     // 이 함수는 loginForm에서 로그인버튼 클릭하면 실행되는 함수임
@@ -27,7 +27,7 @@ public class PrincipalDetailsService implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException
     {
-        Member memberEntity = userRepository.findByNickname(nickname);
+        Member memberEntity = memberRepository.findByNickname(nickname);
         if(memberEntity != null)//멤버가 존재하면 properties에 정해놓은 아이디 비번 쓸모없다.
         {
             return new PrincipalDetail(memberEntity);

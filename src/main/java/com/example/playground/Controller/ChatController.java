@@ -22,6 +22,7 @@ public class ChatController {
         System.out.println("authentication : "+authentication);
         PrincipalDetail principal = (PrincipalDetail)authentication.getPrincipal();
         model.addAttribute("username", principal.getUsername());
+        model.addAttribute("member",principal.getMember());
         log.info("@ChatController, chat GET()");
         return "thymeleaf/chater";
     }

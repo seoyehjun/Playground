@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--글꼴 설정입니다-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Moirai+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/resources/css/hello.css}" type="text/css" />
+
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/resources/css/weather.css}" type="text/css" />
+
+    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+
+    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
+</head>
+
+<body>
+
+<!--헤더 참조-->
+<div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar(page='weather-page')}"></div>
+
+
+
+<!--맵 컨테이너 추가-->
+<div id="map-container" style="width: 100%; height: 500px; ">
+    <div id="map" style="width: 100%; height: 100%;"></div>
+</div>
+
+
+
+<!--복붙 포인트-->
+
+
+
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2beabde4d69dea22a4587bb23ec4392e&libraries=services"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var lat =  33.450701;
+    var lng =  126.570667;
+    console.log("lat : "+ lat);
+    console.log("lng : "+ lng);
+    var mapContainer = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
+    var mapOption = { // 지도를 생성할 때 필요한 기본 옵션
+        center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+        level: 14 // 지도의 레벨(확대, 축소 정도)
+    };
+
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    var placeName = '부산광역시 수영구'
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(placeName, function(result, status)
+        {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK)
+            {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        });
+    /*]]>*/
+</script>
+
+
+
+<!-- Body 스크립트 프래그먼트 참조 -->
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
+
+</body>
+
+</html>

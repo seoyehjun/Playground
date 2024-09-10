@@ -3,12 +3,11 @@ package com.example.playground.Config.oauth;
 import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Config.UserInfo.*;
 import com.example.playground.Model.Member;
-import com.example.playground.Repository.UserRepository;
+import com.example.playground.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     //구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
     // OAuth2User는 PrincipalDetail과 대응된다.
@@ -52,7 +51,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
         if(provider.equals("google"))
-        {
+        {                                       //super.loadUser(userRequest).getAttributes()
             oAuth2UserInfo = new GoogleUserInfo( oAuth2User.getAttributes() );
         }
         else if(provider.equals("kakao"))
@@ -66,11 +65,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
 
         String providerId = oAuth2UserInfo.getProviderId();
         String email = oAuth2UserInfo.getEmail();
-        String loginId = provider + "_" + providerId;
+        String loginId = provider + "_" + providerId; //provider는 정보제공 사이트, providerId는 유저 고유 코드이다
         String nickname = oAuth2UserInfo.getName();
 
 
-        Optional<Member> optionalUser = userRepository.findByLoginId(loginId);
+        Optional<Member> optionalUser = memberRepository.findByLoginId(loginId);
         Member member = null;
 
         if(optionalUser.isEmpty())
@@ -82,7 +81,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
                     .providerId(providerId)
                     .role(UserRole.USER)
                     .build();
-            userRepository.save(member);
+            memberRepository.save(member);
         }
         else
         {

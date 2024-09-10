@@ -3,7 +3,7 @@ package com.example.playground.Controller;
 import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Config.UserInfo.UserRole;
 import com.example.playground.Model.Member;
-import com.example.playground.Repository.UserRepository;
+import com.example.playground.Repository.MemberRepository;
 import com.example.playground.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,14 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/")
 public class HomeController
 {
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private  MailService mailservice;
@@ -67,7 +65,7 @@ public class HomeController
         String rawPassword = member.getUserpw();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         member.setUserpw(encPassword);
-        userRepository.save(member);
+        memberRepository.save(member);
         return "redirect:/loginForm";
     }
 
