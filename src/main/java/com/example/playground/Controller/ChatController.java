@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,21 +17,14 @@ import java.util.List;
 public class ChatController {
 
     @GetMapping("/chat")
-    public String chatGET(Authentication authentication, Model model, @RequestParam("roomCode") String roomcode )
+    public String chatGET(Authentication authentication, Model model)
     {
         System.out.println("authentication : "+authentication);
         PrincipalDetail principal = (PrincipalDetail)authentication.getPrincipal();
         model.addAttribute("username", principal.getUsername());
         model.addAttribute("member",principal.getMember());
-        model.addAttribute("roomcode", roomcode);
         log.info("@ChatController, chat GET()");
         return "thymeleaf/chater";
-    }
-
-    @GetMapping("/chatcode")
-    public String chatcode(Model model)
-    {
-        return "thymeleaf/chatcode";
     }
 
     @GetMapping("/template_test")
