@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>방코드 생성</title>
+    <!-- CSS 링크 프래그먼트 참조 -->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+</head>
+<body>
+<div class="container section-content">
+    <div class="col-6">
+        <label><b>채팅방 생성</b></label>
+        <input type="text" id="roomCode" class="form-control" placeholder="방 코드 생성">
+        <button class="btn btn-primary" type="button" id="createRoom">생성</button>
+    </div>
+    <div class="col-6">
+        <label><b>채팅방 참여</b></label>
+        <input type="text" id="joinCode" class="form-control" placeholder="참여할 방 코드 입력">
+        <button class="btn btn-primary" type="button" id="joinRoom">참여</button>
+    </div>
+</div>
+
+<!-- Body 스크립트 프래그먼트 참조 -->
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
+
+<form id="chatForm" th:action="@{/chat}" method="get" style="display: none;">
+    <input type="hidden" name="roomCode" id="hiddenRoomCode">
+</form>
+
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $("#createRoom").on("click", () => {
+            const roomCode = generateRoomCode();
+            $("#roomCode").val(roomCode);
+            $("#hiddenRoomCode").val(roomCode);
+            $("#chatForm").submit();
+        });
+
+        $("#joinRoom").on("click", () => {
+            const roomCode = $("#joinCode").val();
+            $("#hiddenRoomCode").val(roomCode);
+            $("#chatForm").submit();
+        });
+
+        function generateRoomCode() {
+            return Math.random().toString(36).substring(2, 8);
+        }
+    });
+</script>
+
+
+</body>
+</html>

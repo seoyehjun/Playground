@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
-    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <!-- CSS 링크 프래그먼트 참조 -->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
-
-    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <!-- Modernizr JS 프래그먼트 참조 -->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
-
-   
 </head>
-
 <body data-spy="scroll" data-target="#navbar" class="static-layout">
-
 <!--헤더 참조-->
 <div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
 
@@ -36,14 +30,19 @@
 <!-- Body 스크립트 프래그먼트 참조 -->
 <div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
 
-<script th:inline="javascript">
-    $(document).ready(function(){
+<input type="hidden" id="userId" th:value="*{member.getId()}" />
+<input type="hidden" id="username" th:value="*{member.getNickname()}" />
+<input type="hidden" id="roomCode" th:value="*{roomcode}" />
 
-        const username = [[${username}]];
+<script th:inline="javascript">
+    $(document).ready(function() {
+        const userId = /*[[${member.id}]]*/ '0';
+        const username = /*[[${member.nickname}]]*/ 'anonymous';
+        const roomCode = /*[[${roomcode}]]*/ 'defaultRoom';
 
         $("#disconn").on("click", (e) => {
             disconnect();
-        })
+        });
 
         $("#button-send").on("click", (e) => {
             send();
@@ -55,27 +54,20 @@
         websocket.onopen = onOpen;
         websocket.onclose = onClose;
 
-        function send(){
+        function send() {
             let msg = document.getElementById("msg");
-
-            console.log(username + ":" + msg.value);
-            websocket.send(username + ":" + msg.value);
+            websocket.send(userId + ":" + username + ":" + msg.value);
             msg.value = '';
         }
 
-        // 채팅창에서 나갔을 때
         function onClose(evt) {
-            var str = username + ": 님이 방을 나가셨습니다.";
-            websocket.send(str);
+            websocket.send(userId + ":" + username + ": 님이 방을 나가셨습니다.");
         }
 
-        // 채팅창에 들어왔을 때
         function onOpen(evt) {
-            var str = username + ": 님이 입장하셨습니다.";
-            websocket.send(str);
+            websocket.send(userId + ":" + username + ": 님이 입장하셨습니다.");
         }
 
-        // 메시지를 수신했을 때
         function onMessage(msg) {
             var data = msg.data;
             var sessionId = null;
@@ -95,7 +87,7 @@
             console.log("sessionID : " + sessionId);
             console.log("cur_session : " + cur_session);
 
-            var profileImgUrl = [[${member.getProfileImageUrl}]];
+            var profileImgUrl = /*[[${member.getProfileImageUrl}]]*/ '';
 
             var str = "<div class='col-12'>";
             str += "<div class='chat-box " + (sessionId == cur_session ? "chat-box-left" : "chat-box-right") + "'>";
@@ -104,11 +96,8 @@
             str += "</div></div>";
             $("#msgArea").append(str);
         }
-    })
-</script>
+    });
 
+</script>
 </body>
 </html>
-
-
-
