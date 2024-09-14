@@ -7,25 +7,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
 @Log4j2
-public class ChatController {
-
-    @GetMapping("/chat")
-    public String chatGET(Authentication authentication, Model model)
-    {
-        System.out.println("authentication : "+authentication);
-        PrincipalDetail principal = (PrincipalDetail)authentication.getPrincipal();
-        model.addAttribute("username", principal.getUsername());
-        model.addAttribute("member",principal.getMember());
-        log.info("@ChatController, chat GET()");
-        return "thymeleaf/chater";
-    }
+public class ChatController
+{
 
     @GetMapping("/template_test")
     public String template_test(Model model)
@@ -38,6 +31,36 @@ public class ChatController {
         model.addAttribute("items", items);
 
         return "thymeleaf/template_test"; // Thymeleaf 템플릿 파일의 이름을 반환합니다.
+    }
+
+    @GetMapping("/chatcode")
+    public String chatcode() {
+        return "thymeleaf/chatcode";
+    }
+
+    @PostMapping("/createRoom")
+    public String createRoom(Model model) {
+        String roomId = UUID.randomUUID().toString();
+        System.out.println("방생성 확인된 룸아이디는? :  "+roomId);
+        return "redirect:/chat?roomId=" + roomId;
+    }
+
+    @PostMapping("/joinRoom")
+    public String joinRoom(@RequestParam("roomId") String roomId) {
+        System.out.println("방조인 확인된 룸아이디는? :  "+roomId);
+        return "redirect:/chat?roomId=" + roomId;
+    }
+
+    @GetMapping("/chat")
+    public String chatGET(Authentication authentication, @RequestParam String roomId, Model model) {
+        System.out.println("authentication : " + authentication);
+
+        PrincipalDetail principal = (PrincipalDetail) authentication.getPrincipal();
+        model.addAttribute("username", principal.getUsername());
+        model.addAttribute("member", principal.getMember());
+        model.addAttribute("roomId", roomId);
+        log.info("@ChatController, chat GET()");
+        return "thymeleaf/chater";
     }
 
 }

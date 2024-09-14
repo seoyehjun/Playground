@@ -7,40 +7,46 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 @Log4j2
-public class ChatHandler extends TextWebSocketHandler
-{
-    private static List<WebSocketSession> list = new ArrayList<>();
+public class ChatHandler extends TextWebSocketHandler {
+    private static Map<String, List<WebSocketSession>> roomSessions = new HashMap<>();
+
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
-    {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         log.info("payload : " + payload);
-        //페이로드란 전송되는 데이터를 의미한다.
-        for(WebSocketSession sess: list)
-        {
-            sess.sendMessage(message);
+        String roomId = (String) session.getAttributes().get("roomId");
+
+        if (roomId != null && roomSessions.containsKey(roomId)) {
+            for (WebSocketSession sess : roomSessions.get(roomId)) {
+                sess.sendMessage(message);
+            }
         }
     }
 
-    /* Client가 접속 시 호출되는 메서드 */
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception
-    {
-        list.add(session);
-        log.info(session + " 클라이언트 접속");
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        String roomId = (String) session.getAttributes().get("roomId");
+        roomSessions.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(session);
+        log.info(session + " 클라이언트 접속, 방코드: " + roomId);
+        session.sendMessage(new TextMessage("방코드: " + roomId));
     }
 
-
-    /* Client가 접속 해제 시 호출되는 메서드드 */
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception
-    {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        String roomId = (String) session.getAttributes().get("roomId");
+        if (roomId != null && roomSessions.containsKey(roomId)) {
+            roomSessions.get(roomId).remove(session);
+            if (roomSessions.get(roomId).isEmpty()) {
+                roomSessions.remove(roomId);
+            }
+        }
         log.info(session + " 클라이언트 접속 해제");
-        list.remove(session);
     }
 }

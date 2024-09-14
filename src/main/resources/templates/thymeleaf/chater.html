@@ -2,18 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
-
-    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
-
-   
 </head>
 
 <body data-spy="scroll" data-target="#navbar" class="static-layout">
-
-<!--헤더 참조-->
 <div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
 
 <div class="container section-content">
@@ -33,23 +26,22 @@
     </div>
 </div>
 
-<!-- Body 스크립트 프래그먼트 참조 -->
 <div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
 
 <script th:inline="javascript">
     $(document).ready(function(){
-
         const username = [[${username}]];
+        const roomId = [[${param.roomId}]];
 
         $("#disconn").on("click", (e) => {
             disconnect();
-        })
+        });
 
         $("#button-send").on("click", (e) => {
             send();
         });
 
-        const websocket = new WebSocket("ws://localhost:8080/ws/chat");
+        const websocket = new WebSocket("ws://localhost:8080/ws/chat/" + roomId);
 
         websocket.onmessage = onMessage;
         websocket.onopen = onOpen;
@@ -57,43 +49,30 @@
 
         function send(){
             let msg = document.getElementById("msg");
-
-            console.log(username + ":" + msg.value);
             websocket.send(username + ":" + msg.value);
             msg.value = '';
         }
 
-        // 채팅창에서 나갔을 때
         function onClose(evt) {
             var str = username + ": 님이 방을 나가셨습니다.";
             websocket.send(str);
         }
 
-        // 채팅창에 들어왔을 때
         function onOpen(evt) {
             var str = username + ": 님이 입장하셨습니다.";
             websocket.send(str);
         }
 
-        // 메시지를 수신했을 때
         function onMessage(msg) {
             var data = msg.data;
-            var sessionId = null;
-            var message = null;
             var arr = data.split(":");
-
-            for(var i=0; i<arr.length; i++){
-                console.log('arr[' + i + ']: ' + arr[i]);
-            }
-
+            var sessionId = arr[0];
+            var message = arr[1];
             var cur_session = username;
 
-            console.log("cur_session : " + cur_session);
-            sessionId = arr[0];
-            message = arr[1];
-
-            console.log("sessionID : " + sessionId);
-            console.log("cur_session : " + cur_session);
+            if (message.startsWith("방코드: ")) {
+                alert(message);
+            }
 
             var profileImgUrl = [[${member.getProfileImageUrl}]];
 
@@ -104,11 +83,7 @@
             str += "</div></div>";
             $("#msgArea").append(str);
         }
-    })
+    });
 </script>
-
 </body>
 </html>
-
-
-
