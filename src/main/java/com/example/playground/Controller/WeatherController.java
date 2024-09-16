@@ -72,25 +72,34 @@ public class WeatherController {
         System.out.println("Response code: " + conn.getResponseCode());
 
         BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300)
+        {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
+        }
+        else
+        {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
         StringBuilder sb = new StringBuilder();
         String line;
-        while ((line = rd.readLine()) != null) {
+        while ((line = rd.readLine()) != null)
+        {
             sb.append(line);
         }
 
         String temp = sb.toString();
         JSONParser jp = new JSONParser();
         JSONObject jo = null;
-        try{
+
+        try
+        {
             jo = (JSONObject) jp.parse(temp);
-        }catch(ParseException e){
+        }
+        catch(ParseException e)
+        {
             e.printStackTrace();
         }
+
         System.out.println(jo);
         JSONObject response = (JSONObject) jo.get("response");
         JSONObject body = (JSONObject)response.get("body");

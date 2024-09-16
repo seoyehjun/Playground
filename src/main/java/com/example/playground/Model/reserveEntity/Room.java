@@ -13,14 +13,13 @@ import java.util.List;
 public class Room
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomId;
 
     private int price;
-    private int roomNumber;
+    //private int roomNumber;
     private String type; // A 혹은 B
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
 
-    // Getter, Setter, Constructors, etc.
 }

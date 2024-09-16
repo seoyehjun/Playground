@@ -1,4 +1,4 @@
-package com.example.playground.Model.vo;
+/*package com.example.playground.Model.vo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,3 +19,4 @@ public class Calendar
     private String start;
     private String end;
 }
+*/

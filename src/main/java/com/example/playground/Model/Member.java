@@ -55,7 +55,7 @@ public class Member
     {
         if (this.profileImageUrl == null || this.profileImageUrl.isEmpty())
         {
-            this.profileImageUrl = "/lib/images/profile/default_profile_image.png"; // 기본 프로필 이미지 경로 설정
+            this.profileImageUrl = "/images/profile/default_profile_image.png"; // 기본 프로필 이미지 경로 설정
         }
     }
 

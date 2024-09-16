@@ -56,7 +56,7 @@
                         <div class="split-container">
                             <label for="roomId">방 선택:</label>
                             <select id="roomId" name="roomId" class="col-md-9">
-                             <option th:each="room : ${room_list}" th:value="${room.roomId}" th:text="${room.type + ' - ' + room.roomNumber}">방</option>
+                             <option th:each="room : ${room_list}" th:value="${room.roomId}" th:text="${room.type + ' - ' + room.roomId}">방</option>
                             </select>
                         </div>
                         <br><br>

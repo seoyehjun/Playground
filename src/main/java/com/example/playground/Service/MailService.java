@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class MailService
+{
 
     private final JavaMailSender javaMailSender;
     private static final String senderEmail= "skgy322@gmail.com";
     private static int number;
 
-    public static void createNumber(){
+    public static void createNumber()
+    {
         number = (int)(Math.random() * (90000)) + 100000;// (int) Math.random() * (최댓값-최소값+1) + 최소값
     }
 

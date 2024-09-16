@@ -29,32 +29,18 @@ public class ReservationController
     @Autowired
     ReservationService reservationService;
 
-
-    //테스트용 템플릿
-    @GetMapping("/calendar")
-    public String showCalendar(Model model)
-    {
-        List<EventDto> events = new ArrayList<>();
-        events.add(new EventDto("Event 1", LocalDate.of(2024, 7, 15), LocalDate.of(2024, 7, 16), "#FF5733"));
-        events.add(new EventDto("Event 2", LocalDate.of(2024, 7, 20), LocalDate.of(2024, 7, 22), "#007BFF"));
-        events.add(new EventDto("Event 3", LocalDate.of(2024, 7, 25), LocalDate.of(2024, 7, 27), "#28A745"));
-
-        model.addAttribute("events", events);
-        return "thymeleaf/reservationform3"; // Thymeleaf 템플릿 이름
-    }
-
     public String get_color(int roomId)
     {
         String roomColor;
         switch (roomId)
         {
-            case 1:
+            case 101:
                 roomColor = "#FF5733"; // 방 1의 색상
                 break;
-            case 2:
+            case 102:
                 roomColor = "#00AABB"; // 방 2의 색상
                 break;
-            case 3:
+            case 103:
                 roomColor = "#FFD700"; // 방 3의 색상
                 break;
             default:
@@ -118,7 +104,7 @@ public class ReservationController
 
     // 3. 예약 현황을 보여주는 페이지로 이동
     @GetMapping("/reservation_status")
-    public String reservation_status(Model model,@RequestParam(name="issuccess") String issuccess)
+    public String reservation_status(Model model, @RequestParam(name="issuccess", required=false) String issuccess)//issuccess에 아무런 값없으면 reservationform1.html에서 alert안뜬다
     {
         System.out.println("status 컨트롤러 이동 완료");
         List<EventDto> events = new ArrayList<>();

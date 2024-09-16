@@ -26,10 +26,8 @@ public class Reservation
 
     // 다대일 관계 설정
     @ManyToOne
-    @JoinColumn(name = "id") // 외래 키 이름
+    @JoinColumn(name = "memberId") // 외래 키 이름
     private Member member;
 
 
-
-    // Other fields, getters, setters...
 }

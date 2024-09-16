@@ -1,0 +1,137 @@
+.center-aligner {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.login-input {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.login-button {
+    margin-top: 30px;
+}
+
+.color-black
+{
+    color : #333;
+}
+
+.margin-30 {
+    margin: 30px;
+}
+
+/* 특정 요소의 배경색을 투명도 50%의 흰색으로 설정 */
+.header-weather {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#button-send {
+    border-width: 1px; /* 테두리 굵기 설정 */
+    border: 1px solid #ced4da;/* 테두리 색 회색으로 설정 */
+    border-top-left-radius: 0; /* 왼쪽 위 모서리 네모 */
+    border-bottom-left-radius: 0; /* 왼쪽 아래 모서리 네모 */
+    border-top-right-radius: 10px; /* 오른쪽 위 모서리 둥글게 */
+    border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
+}
+
+#button-weather1{
+    border-width: 1px; /* 테두리 굵기 설정 */
+    border: 1px solid #ced4da;/* 테두리 색 회색으로 설정 */
+    border-top-left-radius: 10px; /* 왼쪽 위 모서리 네모 */
+    border-bottom-left-radius: 10px; /* 왼쪽 아래 모서리 네모 */
+    border-top-right-radius: 10px; /* 오른쪽 위 모서리 둥글게 */
+    border-bottom-right-radius: 10px; /* 오른쪽 아래 모서리 둥글게 */
+}
+
+#reserve-form{
+    width: 250px;
+}
+
+.login-images{
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.split-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rounded-corner {
+    padding: 30px;
+    border: 2px solid #000; /* 테두리 색상과 두께 */
+    border-radius: 10px; /* 둥근 테두리의 반경 */
+}
+
+.location-selector{
+    width: 700px;
+    height: 300px;
+}
+
+.font-white{
+    color: white;
+}
+
+#map-container {
+    margin-top: 93px; /* 헤더와의 간격 조정 */
+}
+
+.profile-img-left {
+    float: left;
+    margin-right: 10px;
+}
+
+.profile-img-right {
+    float: right;
+    margin-left: 10px;
+}
+
+.alert {
+    clear: both;
+    word-wrap: break-word;
+}
+.col-6 {
+    width: 50%;
+}
+
+
+/*채팅기능을 위한 스타일 시작*/
+
+#msgArea{
+    width: 70%;
+}
+
+.profile-img-left, .profile-img-right {
+    width: 50px; /* 원하는 너비 */
+    height: 50px; /* 원하는 높이 */
+    object-fit: cover; /* 이미지 비율 유지 */
+    position: absolute;
+    top: 0;
+}
+.profile-img-left {
+    left: -60px; /* 왼쪽에 배치 */
+}
+.profile-img-right {
+    right: -60px; /* 오른쪽에 배치 */
+}
+.chat-box {
+    display: inline-block;
+    max-width: 70%;
+    padding: 13px;
+    border-radius: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.chat-box-left {
+    background-color: #f1f1f1;
+    margin-left: 70px; /* 이미지 크기만큼 여백 추가 */
+}
+.chat-box-right {
+    background-color: #d1e7dd;
+    margin-right: 70px; /* 이미지 크기만큼 여백 추가 */
+    float: right;
+}
+
+/*채팅기능을 위한 스타일 끝*/

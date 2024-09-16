@@ -128,7 +128,8 @@ public class HomeController
 
 
     @GetMapping("/email_verification")
-    public String MailPage(){
+    public String MailPage()
+    {
         return "thymeleaf/email_verification";
     }
 

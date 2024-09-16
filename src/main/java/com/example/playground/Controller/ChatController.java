@@ -20,39 +20,34 @@ import java.util.UUID;
 public class ChatController
 {
 
-    @GetMapping("/template_test")
-    public String template_test(Model model)
-    {
-        // user 객체와 items 리스트를 생성하거나 가져와서 모델에 추가합니다.
-        User user = new User(111,"John Doe", "admin@gmail.com","Admin"); // 예시로 User 객체를 생성했습니다.
-        List<String> items = Arrays.asList("Item 1", "Item 2", "Item 3");
-
-        model.addAttribute("user", user);
-        model.addAttribute("items", items);
-
-        return "thymeleaf/template_test"; // Thymeleaf 템플릿 파일의 이름을 반환합니다.
-    }
-
     @GetMapping("/chatcode")
-    public String chatcode() {
+    public String chatcode()
+    {
         return "thymeleaf/chatcode";
     }
 
     @PostMapping("/createRoom")
-    public String createRoom(Model model) {
+    public String createRoom(Authentication authentication, Model model)
+    {
         String roomId = UUID.randomUUID().toString();
-        System.out.println("방생성 확인된 룸아이디는? :  "+roomId);
+        //UUID는 범용 고유 식별자(Universally Unique Identifier)의 약자로,
+        // 자바에서 고유한 식별자를 생성하는 데 사용됩니다.
+        log.info("방생성 확인된 룸아이디는? :  "+roomId);
+        log.info("이용자 이름 : "+authentication.getName());
         return "redirect:/chat?roomId=" + roomId;
     }
 
     @PostMapping("/joinRoom")
-    public String joinRoom(@RequestParam("roomId") String roomId) {
-        System.out.println("방조인 확인된 룸아이디는? :  "+roomId);
+    public String joinRoom(Authentication authentication, @RequestParam("roomId") String roomId)
+    {
+        log.info("방조인 확인된 룸아이디는? :  "+roomId);
+        log.info("이용자 이름 : "+authentication.getName());
         return "redirect:/chat?roomId=" + roomId;
     }
 
     @GetMapping("/chat")
-    public String chatGET(Authentication authentication, @RequestParam String roomId, Model model) {
+    public String chatGET(Authentication authentication, @RequestParam String roomId, Model model)
+    {
         System.out.println("authentication : " + authentication);
 
         PrincipalDetail principal = (PrincipalDetail) authentication.getPrincipal();

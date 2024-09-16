@@ -13,31 +13,37 @@
     <script src='https://fullcalendar.io/releases/main/base.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script th:inline="javascript">
-        alert(/*[[${issuccess}]]*/);
-    /*<![CDATA[*/
+        /*<![CDATA[*/
         document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+            var issuccess = /*[[${issuccess}]]*/ 'null';
+            console.log("이즈석세스 값은 : "+issuccess+"..");
+            if (issuccess && issuccess !== 'null')
+            {
+                alert(issuccess);
+            }
 
-        var events = /*[[${events}]]*/ 'default';
-        var calendarEvents = [];
-        for (var i = 0; i < events.length; i++) {
-            calendarEvents.push({
-                title: events[i].title,
-                start: events[i].startDate,
-                end: events[i].endDate + ' 23:59:59',
-                color: events[i].color
+            var calendarEl = document.getElementById('calendar');
+
+            var events = /*[[${events}]]*/ 'default';
+            var calendarEvents = [];
+            for (var i = 0; i < events.length; i++) {
+                calendarEvents.push({
+                    title: events[i].title,
+                    start: events[i].startDate,
+                    end: events[i].endDate + ' 23:59:59',
+                    color: events[i].color
+                });
+            }
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: calendarEvents
             });
-        }
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: calendarEvents
+            calendar.render();
         });
-
-        calendar.render();
-    });
-    /*]]>*/
-</script>
+        /*]]>*/
+    </script>
 
 </head>
 <body>
@@ -45,7 +51,6 @@
 <div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
 
 
-<div th:replace="header :: header"></div>
 <div id="calendar"></div>
 
 <!-- Body 스크립트 프래그먼트 참조 -->
