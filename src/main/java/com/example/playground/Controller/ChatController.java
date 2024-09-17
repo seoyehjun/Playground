@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Controller
 @Log4j2
+@RequestMapping("/chat")
 public class ChatController
 {
 
@@ -34,7 +36,7 @@ public class ChatController
         // 자바에서 고유한 식별자를 생성하는 데 사용됩니다.
         log.info("방생성 확인된 룸아이디는? :  "+roomId);
         log.info("이용자 이름 : "+authentication.getName());
-        return "redirect:/chat?roomId=" + roomId;
+        return "redirect:/chat/chater?roomId=" + roomId;
     }
 
     @PostMapping("/joinRoom")
@@ -42,10 +44,10 @@ public class ChatController
     {
         log.info("방조인 확인된 룸아이디는? :  "+roomId);
         log.info("이용자 이름 : "+authentication.getName());
-        return "redirect:/chat?roomId=" + roomId;
+        return "redirect:/chat/chater?roomId=" + roomId;
     }
 
-    @GetMapping("/chat")
+    @GetMapping("/chater")
     public String chatGET(Authentication authentication, @RequestParam String roomId, Model model)
     {
         System.out.println("authentication : " + authentication);
