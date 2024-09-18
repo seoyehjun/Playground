@@ -31,12 +31,21 @@ public class HomeController
 
 
     @GetMapping("loginForm")
-    public String loginForm(Model model){return "thymeleaf/loginForm";}
+    public String loginForm(Model model){ return "thymeleaf/loginForm"; }
 
     @GetMapping("main")
     public String tomain(Model model)
     {
         return "thymeleaf/main";
+    }
+
+    @GetMapping("myinfo")
+    public String myinfo(Model model, Authentication authentication)
+    {
+        PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
+        Member member = principalDetail.getMember();
+        model.addAttribute("member", member);
+        return "thymeleaf/myinfo";
     }
 
     @GetMapping("hello")

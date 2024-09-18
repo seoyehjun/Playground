@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 //이 객체를 사실 Member 엔티티라고 생각해도 된다.
-@Data
+@Data                                 //일반로그인용  //외부사이트로그인용
 public class PrincipalDetail implements UserDetails, OAuth2User
 {
 

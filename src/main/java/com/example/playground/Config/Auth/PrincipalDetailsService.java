@@ -2,11 +2,14 @@ package com.example.playground.Config.Auth;
 
 import com.example.playground.Model.Member;
 import com.example.playground.Repository.MemberRepository;
+import com.example.playground.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 // 시큐리티 설정에서 loginProcessingUrl("/login"); 설정을 해놨기 때문에
@@ -18,6 +21,9 @@ public class PrincipalDetailsService implements UserDetailsService
     @Autowired
     private final MemberRepository memberRepository;
 
+    @Autowired
+    MemberService memberService;
+
     public PrincipalDetailsService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -25,9 +31,9 @@ public class PrincipalDetailsService implements UserDetailsService
     // 이 함수는 loginForm에서 로그인버튼 클릭하면 실행되는 함수임
     // loginForm에서 username이라는 name속성을 가진것에 대응된다.
     @Override
-    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException
     {
-        Member memberEntity = memberRepository.findByNickname(nickname);
+        Member memberEntity = memberService.optionaltogeneral(memberRepository.findByLoginId(loginId));
         if(memberEntity != null)//멤버가 존재하면 properties에 정해놓은 아이디 비번 쓸모없다.
         {
             return new PrincipalDetail(memberEntity);

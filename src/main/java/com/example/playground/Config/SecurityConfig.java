@@ -37,7 +37,7 @@ public class SecurityConfig
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login","/hello","/login/joinForm","/error").permitAll()
-                        .requestMatchers("/weather/getweather").authenticated()
+                        .requestMatchers("/weather/getweather","/myinfo").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
                         .requestMatchers("/reserve/reservationform1").authenticated()
@@ -48,7 +48,7 @@ public class SecurityConfig
                         .loginPage("/loginForm")
                         .loginProcessingUrl("/loginProc")//login주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
                         .defaultSuccessUrl("/main")
-                        .usernameParameter("nickname")
+                        .usernameParameter("loginId")
                         .passwordParameter("userpw")
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll())//form 태그 안의 input태그의 name속성을 의미

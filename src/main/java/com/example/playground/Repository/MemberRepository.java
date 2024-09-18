@@ -14,5 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer>
     //select * from member where user_name = ?;이런식으로 실행됨
     public Member findByNickname(String username);
 
+
     Optional<Member> findByLoginId(String loginId);
 }

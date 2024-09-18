@@ -16,9 +16,9 @@ public class Member
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String nickname;
-    private String password;
+    //private String password;
     private String userpw;
-    private String email;
+    private String useremail;
     private UserRole role; //ROLE_USER, ROLE_ADMIN
     private String provider;
     private String providerId;
@@ -31,14 +31,14 @@ public class Member
     }
 
     @Builder
-    public Member(int id, String nickname, String password, String userpw, String email, UserRole role, String provider,
+    public Member(int id, String nickname, String password, String userpw, String useremail, UserRole role, String provider,
                   String providerId, String loginId, String profileImageUrl, Timestamp createDate)
     {
         this.id = id;
         this.nickname = nickname;
-        this.password = password;
+        //this.password = password;
         this.userpw = userpw;
-        this.email = email;
+        this.useremail = useremail;
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;

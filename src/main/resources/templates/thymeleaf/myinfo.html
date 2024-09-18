@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
+
+    <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
+    <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+</head>
+
+<body>
+<!--헤더 사이드바 참조-->
+<div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
+
+<div class="container">
+    <div class="section-content">
+        <!-- Section Title -->
+        <div class="title-wrap" data-aos="fade-up">
+            <h2 class="section-title">내정보 수정</h2>
+        </div>
+        <!-- End of Section Title -->
+        <div class="row">
+            <!-- Contact Form Holder -->
+            <div class="col-md-8 offset-md-2 contact-form-holder mt-4" data-aos="fade-up">
+
+                <form method="post" name="update-member" action="/updateMember">
+                    <div class="row center-aligner">
+
+                        <div class="col-md-9 form-group center-aligner login-input">
+                            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임" th:value="${member.nickname}">
+                        </div>
+                        <div class="col-md-9 form-group center-aligner login-input">
+                            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="로그인 ID" th:value="${member.loginId}">
+                        </div>
+                        <div class="col-md-9 form-group center-aligner login-input">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" th:value="${member.password}">
+                        </div>
+                        <div class="col-md-9 form-group center-aligner login-input">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="이메일" th:value="${member.email}">
+                        </div>
+                        <div class="col-md-9 form-group center-aligner login-input">
+                            <input type="text" class="form-control" id="profileImageUrl" name="profileImageUrl" placeholder="프로필 이미지 URL" th:value="${member.profileImageUrl}">
+                        </div>
+
+                        <br>
+
+                        <div class="col-md-12 text-center center-aligner login-button">
+                            <button class="btn btn-primary btn-shadow btn-lg" type="submit" name="submit">수정하기</button>
+                        </div>
+                    </div>
+                </form>
+
+                <br><br>
+
+                <!--oauth2 로그인 버튼들-->
+                <div class="col-md-12 center-aligner">
+                    <a href="/oauth2/authorization/google"><img class="login-images" src="/images/login_button/googleloginimage.png" alt="구글 로그인"></a>
+                    <a href="/oauth2/authorization/kakao"><img class="login-images" src="/images/login_button/kakaologinimage.png" alt="카카오 로그인"></a>
+                    <a href="/oauth2/authorization/naver"><img class="login-images" src="/images/login_button/naverloginimage.png" alt="네이버 로그인"></a>
+                    <!-- oauth2 client 라이브러리를 쓰면 고정으로 위주소를 써야한다-->
+                </div>
+
+                <br><br>
+
+                <a href="/email_verification">회원가입을 아직 하지 않으셨나요?</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
+</body>
+
+</html>
