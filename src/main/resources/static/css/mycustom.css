@@ -140,4 +140,9 @@
     display: block; /* 텍스트를 블록 요소로 설정 */
 }
 
+#profileImage{
+    width: 150px; /* 원하는 너비 */
+    height: 150px; /* 원하는 높이 */
+    object-fit: cover; /* 이미지 비율 유지 */
+}
 /*채팅기능을 위한 스타일 끝*/

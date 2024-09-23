@@ -167,7 +167,7 @@ public class HomeController {
             int current_user_id = principalDetail.getMember().getId();
             Member member = memberService.findMember(current_user_id);//로그인사용자객체
 
-            String uploadDir = "/images/profile";
+            String uploadDir = "C:/Temp/iwork/Playground/src/main/resources/static/images/profile";
             String fileName = file.getOriginalFilename();
             System.out.println("파일네임 :"+fileName+":");
             Path filePath = Paths.get(uploadDir, fileName);
@@ -183,7 +183,7 @@ public class HomeController {
                     Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
                     //DB에는 경로로 이미지 정보 넣는다
-                    String profileImageUrl = uploadDir + "/" + fileName;
+                    String profileImageUrl = "/images/profile/" + fileName;
 
                     member.setProfileImageUrl(profileImageUrl);
                 }
