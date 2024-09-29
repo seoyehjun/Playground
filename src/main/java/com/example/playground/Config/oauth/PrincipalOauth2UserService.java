@@ -44,10 +44,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
         System.out.println("userRequest.getClientRegistration().getClientId()" + userRequest.getClientRegistration().getClientId());
         //위문장 출력 결과: 281351119419-61n6htsd2aqkn7p3lb8052h6f50ls97a.apps.googleusercontent.com
 
-        OAuth2User oAuth2User = super.loadUser(userRequest);
 
+        OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo oAuth2UserInfo = null;
 
+        //소셜 사이트(제공자)
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
         if(provider.equals("google"))
@@ -67,7 +68,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService
         String email = oAuth2UserInfo.getEmail();
         String loginId = provider + "_" + providerId; //provider는 정보제공 사이트, providerId는 유저 고유 코드이다
         String nickname = oAuth2UserInfo.getName();
-
 
         Optional<Member> optionalUser = memberRepository.findByLoginId(loginId);
         Member member = null;

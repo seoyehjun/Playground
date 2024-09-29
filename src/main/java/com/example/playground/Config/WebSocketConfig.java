@@ -16,7 +16,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final ChatHandler chatHandler;
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry)
+    {
+        System.out.println("WebSocketConfig 실행");
         registry.addHandler(chatHandler, "/ws/chat/{roomId}")
                 .setAllowedOrigins("*")
                 .addInterceptors(new WebSocketInterceptor());
