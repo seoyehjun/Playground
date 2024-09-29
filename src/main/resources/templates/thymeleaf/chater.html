@@ -29,15 +29,18 @@
 <div th:replace="~{thymeleaf/fragments/for_roxy :: bodyScripts}"></div>
 
 <script th:inline="javascript">
-    $(document).ready(function(){
+    $(document).ready(function()
+    {
         const username = [[${username}]];
         const roomId = [[${param.roomId}]];
 
-        $("#disconn").on("click", (e) => {
+        $("#disconn").on("click", (e) =>
+        {
             disconnect();
         });
 
-        $("#button-send").on("click", (e) => {
+        $("#button-send").on("click", (e) =>
+        {
             send();
         });
 
@@ -47,38 +50,35 @@
         websocket.onopen = onOpen;
         websocket.onclose = onClose;
 
-        function send(){
+        function send()
+        {
             let msg = document.getElementById("msg");
-            websocket.send(username + ":" + msg.value);
+            websocket.send(JSON.stringify({username: username, message: msg.value}));
             msg.value = '';
         }
 
-        function onClose(evt) {
+        function onClose(evt)
+        {
             var str = username + ": 님이 방을 나가셨습니다.";
-            websocket.send(str);
+            websocket.send(JSON.stringify({username: username, message: str}));
         }
 
-        function onOpen(evt) {
+        function onOpen(evt)
+        {
             var str = username + ": 님이 입장하셨습니다.";
-            websocket.send(str);
+            websocket.send(JSON.stringify({username: username, message: str}));
         }
 
-        function onMessage(msg) {
-            var data = msg.data;
-            var arr = data.split(":");
-            var sessionId = arr[0];
-            var message = arr[1];
-            var cur_session = username;
-
-            if (message.startsWith("방코드: ")) {
-                alert(message);
-            }
-
-            var profileImgUrl = [[${member.getProfileImageUrl}]];
+        function onMessage(msg)
+        {
+            var data = JSON.parse(msg.data);
+            var sessionId = data.username;
+            var message = data.message;
+            var profileImgUrl = data.profileImgUrl; // **** 프로필 이미지 URL 추가
 
             var str = "<div class='col-12'>";
-            str += "<div class='chat-box " + (sessionId == cur_session ? "chat-box-left" : "chat-box-right") + "'>";
-            str += "<img src='" + profileImgUrl + "' alt='profile' class='profile-img-" + (sessionId == cur_session ? "left" : "right") + "'>";
+            str += "<div class='chat-box " + (sessionId == username ? "chat-box-left" : "chat-box-right") + "'>";
+            str += "<img src='" + profileImgUrl + "' alt='profile' class='profile-img-" + (sessionId == username ? "left" : "right") + "'>";
             str += "<b>" + sessionId + " : " + message + "</b>";
             str += "</div></div>";
             $("#msgArea").append(str);

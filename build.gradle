@@ -74,6 +74,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }
 
 tasks.named('test') {

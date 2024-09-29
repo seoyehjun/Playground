@@ -2,7 +2,10 @@ package com.example.playground.Handler;
 
 import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Model.Member;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
+import org.json.simple.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -26,17 +29,26 @@ public class ChatHandler extends TextWebSocketHandler
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
     {
-        //PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
-        //principalDetail.getMember();
         String payload = message.getPayload();
-        log.info("현제 테스트 위치 payload : " + payload);
+        log.info("JSON 테스트 위치 payload : " + payload);
         String roomId = (String) session.getAttributes().get("roomId");
+
+        Gson gson = new Gson();
+        JsonObject jsonPayload = gson.fromJson(payload, JsonObject.class);
+        String username = jsonPayload.get("username").getAsString();
+        String userMessage = jsonPayload.get("message").getAsString();
+        String profileImgUrl = getProfileImageUrl(session);
+
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("username", username);
+        jsonResponse.put("message", userMessage);
+        jsonResponse.put("profileImgUrl",profileImgUrl);
 
         if (roomId != null && roomSessions.containsKey(roomId))
         {
             for (WebSocketSession sess : roomSessions.get(roomId))
             {
-                sess.sendMessage(message);
+                sess.sendMessage(new TextMessage(jsonResponse.toString()));
             }
         }
     }
@@ -47,7 +59,11 @@ public class ChatHandler extends TextWebSocketHandler
         String roomId = (String) session.getAttributes().get("roomId");
         roomSessions.computeIfAbsent(roomId, k -> new CopyOnWriteArrayList<>()).add(session);
         log.info(session + " 클라이언트 접속, 방코드: " + roomId);
-        session.sendMessage(new TextMessage("방코드: " + roomId));
+
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("message","방코드: "+roomId);
+        jsonResponse.put("username","::: 운영 :::");
+        session.sendMessage(new TextMessage(jsonResponse.toString()));
     }
 
     @Override
