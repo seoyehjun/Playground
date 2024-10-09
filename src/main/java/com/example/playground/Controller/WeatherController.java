@@ -28,8 +28,8 @@ public class WeatherController {
 
     }
 
-    @GetMapping("weatherver2")
-    public String weather2(Model model) {return "thymeleaf/weather(ver2)";}
+    @GetMapping("/weather_selector")
+    public String weather2(Model model) {return "thymeleaf/weather_selector";}
 
     @GetMapping("/getweather")
     public String weather(

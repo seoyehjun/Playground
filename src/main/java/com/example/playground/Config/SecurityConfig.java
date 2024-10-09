@@ -22,13 +22,16 @@ public class SecurityConfig
 
     @Autowired
     AuthenticationSuccessHandler customAuthenticationSuccessHandler;
-/*
+
+    /* HomeController에서 이미 등록됌.
     @Bean
     public BCryptPasswordEncoder encodePwd()
     {
         return new BCryptPasswordEncoder();
     }
-*/
+
+    */
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PrincipalDetailsService principalDetailsService) throws Exception
     {
@@ -61,7 +64,8 @@ public class SecurityConfig
         return http.build();
     }
     @Bean
-    public AuthenticationSuccessHandler successHandler() {
+    public AuthenticationSuccessHandler successHandler()
+    {
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
         handler.setUseReferer(true);
         return handler;

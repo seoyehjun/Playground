@@ -52,7 +52,21 @@ public class ChatHandler extends TextWebSocketHandler
             }
         }
     }
+    private String getProfileImageUrl(WebSocketSession session)
+    {
+        Authentication authentication = (Authentication)session.getAttributes().get("authentication");
+        PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
+        Member member = principalDetail.getMember();
 
+        if (member.getProfileImageUrl() != null)
+        {
+            return member.getProfileImageUrl(); // "picture"는 Google OAuth2의 경우 프로필 이미지 URL을 나타냅니다.
+        }
+        else
+        {
+            return "/images/profile/default_profile_image.png"; // 기본 프로필 이미지 경로 설정
+        }
+    }
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception
     {
@@ -81,20 +95,6 @@ public class ChatHandler extends TextWebSocketHandler
         log.info(session + " 클라이언트 접속 해제");
     }
 
-    private String getProfileImageUrl(WebSocketSession session)
-    {
-        Authentication authentication = (Authentication)session.getAttributes().get("authentication");
-        PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
-        Member member = principalDetail.getMember();
 
-        if (member.getProfileImageUrl() != null)
-        {
-            return member.getProfileImageUrl(); // "picture"는 Google OAuth2의 경우 프로필 이미지 URL을 나타냅니다.
-        }
-        else
-        {
-            return "/images/profile/default_profile_image.png"; // 기본 프로필 이미지 경로 설정
-        }
-    }
 
 }

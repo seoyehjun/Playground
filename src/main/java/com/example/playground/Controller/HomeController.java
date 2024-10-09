@@ -17,12 +17,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -40,33 +42,63 @@ public class HomeController {
 
 
     @GetMapping("loginForm")
-    public String loginForm(Model model) {
+    public String loginForm(Model model)
+    {
         return "thymeleaf/loginForm";
     }
 
     @GetMapping("main")
-    public String tomain(Model model) {
+    public String tomain(Model model)
+    {
         return "thymeleaf/main";
     }
 
     @GetMapping("myinfo")
-    public String myinfo(Model model, Authentication authentication) {
+    public String myinfo(Model model, Authentication authentication, @RequestParam(required = false)String issuccess)
+    {
         PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
         Member member = principalDetail.getMember();
         model.addAttribute("member", member);
+        model.addAttribute("issuccess",issuccess);
         return "thymeleaf/myinfo";
     }
 
     @GetMapping("hello")
-    public String home(Model model) {
+    public String home(Model model)
+    {
         return "hello";
     }
 
+    @GetMapping("/changePassword")
+    public String changePassword()
+    {
+        return "thymeleaf/changePassword";
+    }
+
+    @PostMapping("/updatePassword")
+    public String updatePassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword")String newPassword,
+                                 Authentication authentication,RedirectAttributes ra)
+    {
+        PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
+        Member member = principalDetail.getMember();
+        if( member != null && bCryptPasswordEncoder.matches(currentPassword, member.getUserpw()) )
+        {
+            String encPassword = bCryptPasswordEncoder.encode(newPassword);
+            member.setUserpw(encPassword);
+            memberRepository.save(member);
+            ra.addAttribute("issuccess","비밀번호 변경 성공");
+            return "redirect:/myinfo";
+        }
+        ra.addAttribute("issuccess","기존 비밀번호를 확인하세요");
+        return "redirect:/myinfo";
+    }
 
     //바로 joinForm으로 넘어가는게 아닌 이메일 인증으로 넘어가게 설정해보자
     //이메일 인증을 마치면 joinForm.html로 넘어갈 수 있다.
     @PostMapping("joinForm")
-    public String joinForm(Model model, @RequestParam("user_email") String user_email) {
+    public String joinForm(Model model, @RequestParam("user_email") String user_email)
+    {
         System.out.println("------------user_email" + user_email);
         model.addAttribute("user_email", user_email);
         return "thymeleaf/joinForm";
@@ -85,9 +117,7 @@ public class HomeController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/info")
-    public @ResponseBody String info() {
-        return "Secured 어노테이션 테스트 (ROLE_ADMIN)";
-    }
+    public @ResponseBody String info() {return "Secured 어노테이션 테스트 (ROLE_ADMIN)";}
 
     @GetMapping("/admin")
     public @ResponseBody String admin_page() {

@@ -7,6 +7,20 @@
 
     <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
+    <script th:inline="javascript">
+        /*<!CDATA[*/
+        document.addEventListener('DOMContentLoaded',function(){
+            var issuccess = /*[[${issuccess}]]*/ 'null';
+            console.log('issuccess'+ issuccess);
+
+            if(issuccess && issuccess !=='null')/*페이지 로드시 무슨 값이 있을경우*/
+            {
+                alert(issuccess);
+            }
+        });
+        /*]]>*/
+    </script>
 </head>
 
 <body>
@@ -35,6 +49,7 @@
                         </div>
                         <div class="col-md-9 form-group center-aligner login-input">
                             <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" th:value="${member.userpw}">
+                            <a href="changePassword" class="">비밀번호 변경</a>
                         </div>
                         <div class="col-md-9 form-group center-aligner login-input">
                             <input type="email" class="form-control" id="email" name="email" placeholder="이메일" th:value="${member.useremail}">

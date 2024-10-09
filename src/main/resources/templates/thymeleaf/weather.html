@@ -7,13 +7,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Moirai+One&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/resources/css/hello.css}" type="text/css" />
+
 
     <title>Document</title>
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!--/src/main/webapp/resources/css안에 있던걸 사용했었음<link rel="stylesheet" th:href="@{/resources/css/hello.css}" type="text/css" />-->
+    <!--/src/main/webapp/resources/css안에 있던걸 사용했었음 <link rel="stylesheet" th:href="@{/resources/css/weather.css}" type="text/css" />-->
 
-    <link rel="stylesheet" th:href="@{/resources/css/weather.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/weather.css}" type="text/css"/>
 
     <!-- CSS 링크 프래그먼트 참조 (roxy를 위한 참조들)-->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: cssLinks}"></div>
@@ -49,19 +51,19 @@
     <div class="weather-status">
         <div th:switch="${SKY.obsrValue}">
             <div th:case="1">
-                <img th:src="@{/resources/WeatherIcon/img.png}" alt="맑은 날씨 이미지">
+                <img th:src="@{/images/weather_images/img.png}" alt="맑은 날씨 이미지">
             </div>
             <div th:case="3">
-                <img th:src="@{/resources/WeatherIcon/img_1.png}" alt="조금 흐린 날씨 이미지">
+                <img th:src="@{/images/weather_images/img_1.png}" alt="조금 흐린 날씨 이미지">
             </div>
             <div th:case="4">
-                <img th:src="@{/resources/WeatherIcon/img_2.png}" alt="조금 흐린 날씨 이미지">
+                <img th:src="@{/images/weather_images/img_2.png}" alt="조금 흐린 날씨 이미지">
             </div>
             <div th:case="6">
-                <img th:src="@{/resources/WeatherIcon/img2.png}" alt="많이 흐린 날씨 이미지">
+                <img th:src="@{/images/weather_images/img2.png}" alt="많이 흐린 날씨 이미지">
             </div>
             <div th:case="*{PTY.obsrValue == 1}">
-                <img th:src="@{/resources/WeatherIcon/img_3.png}" alt="비오는 날씨 이미지">
+                <img th:src="@{/images/weather_images/img_3.png}" alt="비오는 날씨 이미지">
             </div>
             <div th:case="*">
                 <p>날씨 정보를 가져오지 못했습니다.</p>
