@@ -146,3 +146,24 @@
     object-fit: cover; /* 이미지 비율 유지 */
 }
 /*채팅기능을 위한 스타일 끝*/
+
+
+
+.change-password a {
+    color: #007bff; /* 링크 색상 */
+    text-decoration: underline; /* 밑줄 추가 */
+    font-weight: bold; /* 글자 굵게 */
+}
+
+.change-password a:hover {
+    color: #0056b3; /* 마우스 오버 시 색상 변경 */
+    text-decoration: none; /* 마우스 오버 시 밑줄 제거 */
+}
+
+#profileImage{
+    transition: filter 0.3s ease;
+}
+
+#profileImage:hover{
+    filter: brightness(80%);
+}

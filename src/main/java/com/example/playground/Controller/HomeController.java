@@ -77,19 +77,27 @@ public class HomeController {
 
     @PostMapping("/updatePassword")
     public String updatePassword(@RequestParam("currentPassword") String currentPassword,
-                                 @RequestParam("newPassword")String newPassword,
+                                 @RequestParam("newPassword1")String newPassword1,
+                                 @RequestParam("newPassword2")String newPassword2,
                                  Authentication authentication,RedirectAttributes ra)
     {
         PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
         Member member = principalDetail.getMember();
-        if( member != null && bCryptPasswordEncoder.matches(currentPassword, member.getUserpw()) )
+        if(!newPassword1.equals(newPassword2))
         {
-            String encPassword = bCryptPasswordEncoder.encode(newPassword);
+            ra.addAttribute("issuccess", "두 비밀번호가 다릅니다.");
+            return "redirect:/myinfo";
+        }
+        if( member != null && bCryptPasswordEncoder.matches(currentPassword, member.getUserpw())
+        && newPassword1.equals(newPassword2) )
+        {
+            String encPassword = bCryptPasswordEncoder.encode(newPassword1);
             member.setUserpw(encPassword);
             memberRepository.save(member);
             ra.addAttribute("issuccess","비밀번호 변경 성공");
             return "redirect:/myinfo";
         }
+
         ra.addAttribute("issuccess","기존 비밀번호를 확인하세요");
         return "redirect:/myinfo";
     }
@@ -185,7 +193,6 @@ public class HomeController {
     @PostMapping("/updateMember")
     public String updateMember(@RequestParam("nickname") String nickname,
                                @RequestParam("loginId") String loginId,
-                               @RequestParam("password") String password,
                                @RequestParam("email") String email,
                                @RequestParam("profileImage") MultipartFile file,
                                Authentication authentication,
@@ -220,7 +227,6 @@ public class HomeController {
 
                 member.setNickname(nickname);
                 member.setLoginId(loginId);
-                member.setUserpw(password);
                 member.setUseremail(email);
 
                 memberService.updateMember(member);//수정된 정보가 있을경우 로그인된 사용자 정보 수정됨

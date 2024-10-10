@@ -39,26 +39,37 @@
             <div class="col-md-8 offset-md-2 contact-form-holder mt-4" data-aos="fade-up">
 
                 <form method="post" name="update-member" action="/updateMember" enctype="multipart/form-data">
+
                     <div class="row center-aligner">
 
                         <div class="col-md-9 form-group center-aligner login-input">
-                            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임" th:value="${member.nickname}">
+                            <label>닉네임 :
+                                <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임" th:value="${member.nickname}">
+                            </label>
                         </div>
+
                         <div class="col-md-9 form-group center-aligner login-input">
-                            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="로그인 ID" th:value="${member.loginId}">
+                            <label>로그인 ID:
+                                <input type="text" class="form-control" id="loginId" name="loginId" placeholder="로그인 ID" th:value="${member.loginId}">
+                            </label>
                         </div>
-                        <div class="col-md-9 form-group center-aligner login-input">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" th:value="${member.userpw}">
-                            <a href="changePassword" class="">비밀번호 변경</a>
+
+                        <div class="col-md-9 form-group center-aligner change-password">
+                            <a href="changePassword" class="">비밀번호를 변경하려면 여길 클릭</a>
                         </div>
+
                         <div class="col-md-9 form-group center-aligner login-input">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="이메일" th:value="${member.useremail}">
+                            <label>이메일
+                                <input type="email" class="form-control" id="email" name="email" placeholder="이메일" th:value="${member.useremail}" readonly>
+                            </label>
                         </div>
+
                         <div class="col-md-9 form-group center-aligner login-input">
-                            <img id="profileImage" th:src="@{${member.profileImageUrl}}" alt="Profile Image" onclick="document.getElementById('fileInput').click();">
-                            <br>
-                            <p class="profile-text">프로필 이미지</p>
-                            <input type="file" id="fileInput" name="profileImage" style="display: none;" onchange="previewImage(event)">
+                            <label>프로필 이미지</label>
+                                <img id="profileImage" th:src="@{${member.profileImageUrl}}" alt="Profile Image" onclick="document.getElementById('fileInput').click();">
+                                <br>
+                                <input type="file" id="fileInput" name="profileImage" style="display: none;" onchange="previewImage(event)">
+                            </label>
                         </div>
 
 
