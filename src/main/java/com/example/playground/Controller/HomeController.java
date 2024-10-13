@@ -6,10 +6,13 @@ import com.example.playground.Model.Member;
 import com.example.playground.Repository.MemberRepository;
 import com.example.playground.Service.MailService;
 import com.example.playground.Service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -27,7 +30,8 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 
 @Controller
-public class HomeController {
+public class HomeController
+{
     @Autowired
     private MemberRepository memberRepository;
 
@@ -48,8 +52,9 @@ public class HomeController {
     }
 
     @GetMapping("main")
-    public String tomain(Model model)
+    public String tomain(Model model, @RequestParam(required = false)String message)
     {
+        model.addAttribute("message", message);
         return "thymeleaf/main";
     }
 
@@ -59,7 +64,7 @@ public class HomeController {
         PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
         Member member = principalDetail.getMember();
         model.addAttribute("member", member);
-        model.addAttribute("issuccess",issuccess);
+        model.addAttribute("issuccess", issuccess);
         return "thymeleaf/myinfo";
     }
 
@@ -79,27 +84,40 @@ public class HomeController {
     public String updatePassword(@RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword1")String newPassword1,
                                  @RequestParam("newPassword2")String newPassword2,
-                                 Authentication authentication,RedirectAttributes ra)
+                                 Authentication authentication,RedirectAttributes ra,HttpServletRequest request)
     {
         PrincipalDetail principalDetail = (PrincipalDetail)authentication.getPrincipal();
         Member member = principalDetail.getMember();
+
+        // 1. 새 비밀번호 두개가 서로 다를때
         if(!newPassword1.equals(newPassword2))
         {
-            ra.addAttribute("issuccess", "두 비밀번호가 다릅니다.");
-            return "redirect:/myinfo";
+            ra.addAttribute("message", "두 비밀번호가 다릅니다.");
+            return "redirect:/main";
         }
+
+        // 2. 기존비밀번호 맞을시
         if( member != null && bCryptPasswordEncoder.matches(currentPassword, member.getUserpw())
         && newPassword1.equals(newPassword2) )
         {
             String encPassword = bCryptPasswordEncoder.encode(newPassword1);
             member.setUserpw(encPassword);
             memberRepository.save(member);
-            ra.addAttribute("issuccess","비밀번호 변경 성공");
-            return "redirect:/myinfo";
+
+            // 인증 정보 제거
+            SecurityContextHolder.clearContext();
+
+            // 세션 무효화
+            request.getSession().invalidate();
+
+            ra.addAttribute("message","비밀번호 변경 성공 다시 로그인해 주세요");
+
+            return "redirect:/main";
         }
 
-        ra.addAttribute("issuccess","기존 비밀번호를 확인하세요");
-        return "redirect:/myinfo";
+        // 3. 기존 비밀번호가 틀렸을때
+        ra.addAttribute("message","기존 비밀번호를 확인하세요");
+        return "redirect:/main";
     }
 
     //바로 joinForm으로 넘어가는게 아닌 이메일 인증으로 넘어가게 설정해보자
@@ -196,8 +214,10 @@ public class HomeController {
                                @RequestParam("email") String email,
                                @RequestParam("profileImage") MultipartFile file,
                                Authentication authentication,
-                               Model model) {
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                               Model model, HttpServletRequest request,RedirectAttributes ra)
+    {
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
+        {
             System.out.println("update 컨트롤러 이동 완료");
 
             PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();//로그인사용자기본키
@@ -229,19 +249,42 @@ public class HomeController {
                 member.setLoginId(loginId);
                 member.setUseremail(email);
 
-                memberService.updateMember(member);//수정된 정보가 있을경우 로그인된 사용자 정보 수정됨
+                PrincipalDetail updatedPrincipal = memberService.updateMember(member);//수정된 정보가 있을경우 로그인된 사용자 정보 수정됨
+                updateAuthentication(updatedPrincipal);
             }
             catch (IOException e)
             {
                 System.out.println("try 오류 뜸");
             }
 
+            // 인증 정보 제거
+            SecurityContextHolder.clearContext();
+
+            // 세션 무효화
+            request.getSession().invalidate();
+
+            ra.addAttribute("message","변경 성공 - 다시 로그인해 주세요");
+
+            return "redirect:/main";
+
         }
+
+        ra.addAttribute("message","세션이 만료된듯 합니다.");
 
         return "redirect:/main";
 
     }
 
+    //사용자 업데이트시 그 정보를 바로 반영하기 위한 함수
+    private void updateAuthentication(PrincipalDetail updatedPrincipal)
+    {
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+                updatedPrincipal,
+                updatedPrincipal.getPassword(),
+                updatedPrincipal.getAuthorities()
+        );
 
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
 
 }

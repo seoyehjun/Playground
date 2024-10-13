@@ -40,10 +40,10 @@ public class SecurityConfig
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login","/hello","/login/joinForm","/error").permitAll()
-                        .requestMatchers("/weather/getweather","/myinfo").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
-                        .requestMatchers("/reserve/reservationform1").authenticated()
+                        .requestMatchers("/reserve/reservationform1", "/chat/chatcode","/chat/createRoom","/chat/joinRoom"
+                        , "/myinfo","changePassword","/myinfo").authenticated()
                         .anyRequest().permitAll()
 
                 )

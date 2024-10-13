@@ -10,21 +10,43 @@
 <div th:replace="~{thymeleaf/fragments/roxy_header_sidebar :: header_sidebar}"></div>
 
 <div class="container section-content">
-    <div class="col-6">
-        <label><b>채팅방 생성 또는 참여</b></label>
-    </div>
-    <div>
-        <form action="/chat/createRoom" method="post">
-            <button type="submit" class="btn btn-primary">채팅방 생성</button>
-        </form>
-        <form action="/chat/joinRoom" method="post">
-            <div class="input-group mb-3">
-                <input type="text" name="roomId" class="form-control" placeholder="방코드 입력">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-outline-secondary">참여</button>
-                </div>
+
+    <div class="container">
+
+        <div class="section-content">
+            <!-- Section Title -->
+            <div class="title-wrap" data-aos="fade-up">
+                <h2 class="section-title">채팅방 생성 혹은 참여</h2>
             </div>
-        </form>
+
+            <div class="row">
+                <br>
+
+                <!-- Contact Form Holder -->
+                <div class="col-md-8 offset-md-2 contact-form-holder mt-4" data-aos="fade-up">
+
+                    <form action="/chat/createRoom" method="post" class="d-flex justify-content-center">
+                        <div class="col-md-9 form-group center-aligner login-input row">
+                            <button type="submit" class="btn btn-primary center-aligner">채팅방 생성</button>
+                        </div>
+                    </form>
+
+                    <br><br>
+
+                    <form action="/chat/joinRoom" method="post" class="d-flex justify-content-center">
+                        <div class="col-md-9 form-group center-aligner login-input row">
+                            <div class="input-group mb-3 center-aligner">
+                                <input type="text" name="roomId" class="form-control" placeholder="방코드 입력">
+                                <div class="input-group-append center-aligner">
+                                    <button type="submit" class="btn btn-outline-secondary">참여</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 

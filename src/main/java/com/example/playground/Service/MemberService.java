@@ -1,5 +1,6 @@
 package com.example.playground.Service;
 
+import com.example.playground.Config.Auth.PrincipalDetail;
 import com.example.playground.Model.Member;
 import com.example.playground.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,13 @@ public class MemberService
         return optionaltogeneral(memberRepository.findById(id));
     }
 
-    public void updateMember(Member member)
+    public PrincipalDetail updateMember(Member member)
     {
         memberRepository.save(member);
+
+        //사용자 인증정보가 중간에 변경되었을경우 리턴값으로 업데이트 가능
+        return new PrincipalDetail(member);
     }
+
 
 }

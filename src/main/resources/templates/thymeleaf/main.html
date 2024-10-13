@@ -17,6 +17,19 @@
 
     <!-- Modernizr JS 프래그먼트 참조 (roxy를 위한 참조들)-->
     <div th:replace="~{thymeleaf/fragments/for_roxy :: scripts}"></div>
+
+    <script th:inline="javascript">
+        /*<!CDATA[*/
+        document.addEventListener('DOMContentLoaded',function(){
+            var message = /*[[${message}]]*/ 'null';
+
+            if(message && message !== 'null')
+            {
+                alert(message);
+            }
+        });/*]]>*/
+    </script>
+
 </head>
 
 <body data-spy="scroll" data-target="#navbar" class="static-layout">
