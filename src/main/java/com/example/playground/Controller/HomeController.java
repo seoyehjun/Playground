@@ -255,6 +255,10 @@ public class HomeController
             catch (IOException e)
             {
                 System.out.println("try 오류 뜸");
+
+                ra.addAttribute("message","파일입력 오류");
+
+                return "redirect:/main";
             }
 
             // 인증 정보 제거
